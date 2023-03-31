@@ -30,6 +30,7 @@ type ArrowProps = {
  * Carousel component renders a slick-carousel
  */
 export default function Carousel({cards, settings = defaultSettings}: CarouselProps) {
+    console.log(cards);
     return (
         <Slider {...settings}>
             {cards.map(url => (

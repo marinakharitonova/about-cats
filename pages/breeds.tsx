@@ -42,6 +42,7 @@ const transformPropertyName = (str: string) => {
 }
 
 function Breeds({breed, breedImages}: BreedsProps) {
+    console.log(breedImages);
     return (
         <>
             <Head>
