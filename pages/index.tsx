@@ -54,11 +54,16 @@ export default function Home() {
     }
 
     const toggleFavorite = (imageId: string) => {
-        setIsFav(!isFav)
         if (isFav) {
-            triggerRemoveFav().then(() => setFavImageId(-1))
+            triggerRemoveFav().then(() => {
+                setFavImageId(-1)
+                setIsFav(false)
+            })
         } else {
-            triggerAddFav({image_id: imageId}).then(r => setFavImageId(r.id))
+            triggerAddFav({image_id: imageId}).then(r => {
+                setFavImageId(r.id)
+                setIsFav(true)
+            })
         }
     }
 
