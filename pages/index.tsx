@@ -54,7 +54,6 @@ export default function Home() {
     }
 
     const toggleFavorite = (imageId: string) => {
-        setIsFav(!isFav)
         if (isFav) {
             triggerRemoveFav().then(() => setFavImageId(-1))
         } else {

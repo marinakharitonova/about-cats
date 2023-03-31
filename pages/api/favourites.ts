@@ -13,7 +13,7 @@ interface IAddFavResponse {
 export default function handler(req: NextApiRequest, res: NextApiResponse<string | IAddFavResponse>) {
     axios.post('https://api.thecatapi.com/v1/favourites', req.body, {
         headers: {
-            'x-api-key': process.env.API_KEY
+            'x-api-key': 'live_mhwJgjzKxFzVNq1GK5ZMbgsU3AorN9RAOteFwLOb3jo9aNaMw9EgulsSQQpYxlCs'
         }
     }).then(r => res.status(200).json(r.data))
 
