@@ -30,7 +30,7 @@ const breedCharacters: (keyof IBreed)[] = [
 ]
 
 const breedPeculiarities: (keyof IBreed)[] = [
-    "hairless", "natural", "rare", "rex", "suppressed_tail", "short_legs"
+    "hairless", "natural", "rare", "rex", "suppressed_tail", "short_legs", "hypoallergenic"
 ]
 
 /**
