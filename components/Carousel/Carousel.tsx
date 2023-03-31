@@ -30,7 +30,6 @@ type ArrowProps = {
  * Carousel component renders a slick-carousel
  */
 export default function Carousel({cards, settings = defaultSettings}: CarouselProps) {
-
     return (
         <Slider {...settings}>
             {cards.map(url => (
@@ -43,11 +42,7 @@ export default function Carousel({cards, settings = defaultSettings}: CarouselPr
                     height="500"
                 />
             ))}
-
-            <SamplePrevArrow/>
         </Slider>
-
-
     );
 }
 
