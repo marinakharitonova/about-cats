@@ -22,6 +22,10 @@ type CarouselProps = {
     settings?: Settings
 }
 
+type ArrowProps = {
+    onClick?: () => void
+}
+
 /**
  * Carousel component renders a slick-carousel
  */
@@ -39,11 +43,15 @@ export default function Carousel({cards, settings = defaultSettings}: CarouselPr
                     height="500"
                 />
             ))}
+
+            <SamplePrevArrow/>
         </Slider>
+
+
     );
 }
 
-function SamplePrevArrow({onClick}) {
+function SamplePrevArrow({onClick}: ArrowProps) {
     return (
         <IconButton
             aria-label="left-arrow"
@@ -61,7 +69,7 @@ function SamplePrevArrow({onClick}) {
     )
 }
 
-function SampleNextArrow({onClick}) {
+function SampleNextArrow({onClick}: ArrowProps) {
     return (
         <IconButton
             aria-label="right-arrow"

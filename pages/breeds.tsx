@@ -7,14 +7,14 @@ import {Badge, ButtonGroup, Divider, Heading, Link, Stack, Text} from "@chakra-u
 import {ExternalLinkIcon} from '@chakra-ui/icons'
 import StarsRating from "@/components/StarsRating";
 import {IImage} from "@/types/Iimage";
-import Carousel from "@/components/Carousel";
+import Carousel from "@/components/Carousel/Carousel";
 
 type BreedsProps = {
-    bred: IBreed
+    breed: IBreed
     breedImages: IImage[]
 }
 
-const breedCharacters = [
+const breedCharacters: (keyof IBreed)[] = [
     "adaptability",
     "affection_level",
     "child_friendly",
@@ -29,7 +29,7 @@ const breedCharacters = [
     "vocalisation",
 ]
 
-const breedPeculiarities = [
+const breedPeculiarities: (keyof IBreed)[] = [
     "hairless", "natural", "rare", "rex", "suppressed_tail", "short_legs"
 ]
 
@@ -76,7 +76,9 @@ function Breeds({breed, breedImages}: BreedsProps) {
                             Weight: {breed.weight.metric} kg
                         </Text>
                         {
-                            breedCharacters.map(bc => <StarsRating key={bc} count={breed[bc]} name={transformPropertyName(bc)}/>)
+                            breedCharacters.map(bc => <StarsRating key={bc}
+                                                                   count={breed[bc] as number}
+                                                                   name={transformPropertyName(bc)}/>)
                         }
                     </Stack>
                 </CardBody>

@@ -1,6 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {IImage} from "@/types/Iimage";
-import {instance, requestHelper} from "@/pages/api/_instance";
+import {instance, requestHelper} from "@/lib/axiosInstance";
+
 
 /**
  * Get a random cat image

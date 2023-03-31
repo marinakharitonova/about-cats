@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {instance, requestHelper} from "@/pages/api/_instance";
+import {instance, requestHelper} from "@/lib/axiosInstance";
 
-interface IAddRavResponse {
+interface IAddFavResponse {
     message: string
     id: number
 }
@@ -9,7 +9,7 @@ interface IAddRavResponse {
 /**
  * Add the image to favorites
  */
-export default function handler(req: NextApiRequest, res: NextApiResponse<string | IAddRavResponse>) {
-    const promise = instance.post('favourites', req.body)
+export default function handler(req: NextApiRequest, res: NextApiResponse<string | IAddFavResponse>) {
+    const promise = instance.post<IAddFavResponse>('favourites', req.body)
     requestHelper(req, res, promise)
 }

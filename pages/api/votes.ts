@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {instance, requestHelper} from "@/pages/api/_instance";
+import {instance, requestHelper} from "@/lib/axiosInstance";
 
 interface IVoteResponse {
     country_code: string
