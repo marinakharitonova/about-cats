@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {instance, requestHelper} from "@/lib/axiosInstance";
+import {instance, requestHelper} from "@/pages/api/axiosInstance";
 
 interface IAddFavResponse {
     message: string

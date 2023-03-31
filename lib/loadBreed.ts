@@ -1,7 +1,6 @@
-
 import {IBreed} from "@/types/IBreed";
 import {IImage} from "@/types/Iimage";
-import {instance} from "@/lib/axiosInstance";
+import {instance} from "@/pages/api/axiosInstance";
 
 export const loadBreed = async () => {
     const response = await instance.get<IBreed>('breeds/abys')

@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {IImage} from "@/types/Iimage";
-import {instance, requestHelper} from "@/lib/axiosInstance";
+import {instance, requestHelper} from "@/pages/api/axiosInstance";
 
 
 /**
