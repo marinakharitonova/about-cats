@@ -13,6 +13,7 @@ const defaultSettings: Settings = {
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
+    fade: true,
     nextArrow: <SampleNextArrow/>,
     prevArrow: <SamplePrevArrow/>
 };
@@ -32,14 +33,16 @@ type ArrowProps = {
 export default function Carousel({cards, settings = defaultSettings}: CarouselProps) {
     return (
         <Slider {...settings}>
-            {cards.map(url => (
+            {cards.map((url, index) => (
                 <Image
                     key={url}
                     src={url}
                     alt="Cat"
                     className={styles.image}
-                    width="632"
-                    height="500"
+                    style={{width: 696, height: 600}}
+                    width="696"
+                    height="600"
+                    priority={index === 0}
                 />
             ))}
         </Slider>

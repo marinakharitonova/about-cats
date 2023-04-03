@@ -15,7 +15,7 @@ export default function App({Component, pageProps}: AppProps) {
                     if (error.status !== 403 && error.status !== 404) {
                         toast({
                             title: error.message,
-                            description: error.response.data,
+                            description: 'error.response.data',
                             status: 'error',
                             duration: 5000,
                             isClosable: true,

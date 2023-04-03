@@ -5,6 +5,8 @@ import axios from 'axios'
  */
 export const getFetcher = (url: string) => axios.get(url).then(res => res.data)
 
+export const fetchWithParams = (api: [string, any]) => axios.get(api[0], {params: api[1]}).then(res => res.data)
+
 export const postFetcher = (url: string, {arg}: { arg: unknown }) => axios.post(url, arg).then(res => res.data)
 
 export const delFetcher = (url: string) => axios.delete(url).then(res => res.data)

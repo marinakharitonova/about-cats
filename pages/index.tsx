@@ -29,7 +29,7 @@ export default function Home() {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [isFav, setIsFav] = useState(false)
 
-    const {data, isLoading, mutate, isValidating} = useSWRImmutable<IImage[]>('/api/image', getFetcher)
+    const {data, isLoading, mutate, isValidating} = useSWRImmutable<IImage[]>('/api/images', getFetcher)
 
     const {
         trigger: triggerVote,
