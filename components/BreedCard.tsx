@@ -50,14 +50,17 @@ function BreedCard({breedId}: { breedId: string }) {
     const {
         data: breedImages,
         isValidating: isBreedImagesValidating
-    } = useSWR<IImage[]>(['/api/images', {breed_ids: breedId, limit: BREEDS_IMAGES_COUNT}], imagesFetcher)
+    } = useSWR<IImage[]>(['/api/images', {
+        breed_ids: breedId,
+        limit: BREEDS_IMAGES_COUNT
+    }], imagesFetcher)
 
     return (
-        <Card transition="0.3s ease"
-              style={{opacity: isBreedValidating || isBreedImagesValidating ? '0.7' : '1'}}>
+        <Card>
             <CardBody>
                 <Carousel cards={breedImages!.map(bi => bi.url)}/>
-                <Stack mt='6' spacing='3'>
+                <Stack mt='6' spacing='3' transition="0.3s ease"
+                       opacity={isBreedValidating || isBreedImagesValidating ? '0.7' : '1'}>
                     <Stack direction='row'>
                         {breedPeculiarities.map(bp => {
                             if (breedInfo?.[bp]) {

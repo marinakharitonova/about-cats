@@ -7,6 +7,7 @@ import {AiFillHeart, AiOutlineDislike, AiOutlineHeart, AiOutlineLike} from "reac
 import {useState} from 'react';
 import {IImage} from "@/types/Iimage";
 import {delFetcher, getFetcher, imagesFetcher, postFetcher} from "@/lib/fetchers/fetchers";
+import ImagePreloader from "@/components/ImagePreloader";
 
 interface IVoteMutationArg {
     image_id: string
@@ -29,7 +30,11 @@ export default function Home() {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [isFav, setIsFav] = useState(false)
 
-    const {data, isLoading, mutate, isValidating} = useSWRImmutable<IImage[]>(['/api/images', {order: 'RANDOM'}], imagesFetcher)
+    const {
+        data,
+        isLoading,
+        mutate,
+    } = useSWRImmutable<IImage[]>(['/api/images', {order: 'RANDOM'}], imagesFetcher)
 
     const {
         trigger: triggerVote,
@@ -78,16 +83,17 @@ export default function Home() {
 
             <Wrap spacing='12px' direction='column'>
                 <Skeleton isLoaded={!isLoading} w="500px" h="500px">
-                    {data && <Image
-                        key={data[0].url}
-                        src={data[0].url}
-                        alt="Cat"
-                        style={{objectFit: 'contain', height: '500px', opacity: isValidating ? '0.5' : '1'}}
-                        width="500"
-                        height="500"
-                        priority={true}
-                        onLoad={() => setIsImageLoaded(true)}
-                    />}
+                    {data &&
+                        <ImagePreloader key={data[0].url} width={'500px'} height={'500px'}
+                                        render={onLoadingCb =>
+                                            <ImageWrapper src={data[0].url}
+                                                          onLoadingCb={() => {
+                                                              onLoadingCb()
+                                                              setIsImageLoaded(true)
+                                                          }
+                                            }/>
+                                        }/>
+                    }
                 </Skeleton>
                 <Wrap spacing='12px'>
                     <Button colorScheme='green' isLoading={isVoteBtnLoading} leftIcon={<AiOutlineLike/>}
@@ -103,4 +109,27 @@ export default function Home() {
             </Wrap>
         </>
     )
+}
+
+type ImageWrapperProps = {
+    src: string
+    onLoadingCb: () => void
+}
+
+const ImageWrapper = ({src, onLoadingCb}: ImageWrapperProps) => {
+    return (
+        <Image
+            src={src}
+            alt="Cat"
+            style={{
+                objectFit: 'cover',
+                height: '500px',
+            }}
+            width="500"
+            height="500"
+            priority={true}
+            onLoad={onLoadingCb}
+        />
+    )
+
 }

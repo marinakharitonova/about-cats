@@ -1,5 +1,9 @@
 .image {
-    width: 696px !important;
-    height: 600px !important;
+    max-width: 696px;
+    min-width: 696px;
+    width: auto !important;
+    max-height: 600px;
+    min-height: 600px;
+    height: auto !important;
     object-fit: cover;
 }

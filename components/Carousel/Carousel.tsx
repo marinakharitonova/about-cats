@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import styles from './Carousel.module.css'
 import Slider, {Settings} from 'react-slick';
+import ImagePreloader from "@/components/ImagePreloader";
 
 const defaultSettings: Settings = {
     dots: true,
@@ -32,18 +33,17 @@ type ArrowProps = {
  */
 export default function Carousel({cards, settings = defaultSettings}: CarouselProps) {
     return (
-        <Slider {...settings}>
+        <Slider {...settings} key={cards[0]}>
             {cards.map((url, index) => (
-                <Image
-                    key={url}
+                <ImagePreloader key={url} width={'696px'} height={'600px'} render={(onLoadingCb) => <Image
                     src={url}
                     alt="Cat"
                     className={styles.image}
-                    style={{width: 696, height: 600}}
                     width="696"
                     height="600"
                     priority={index === 0}
-                />
+                    onLoadingComplete={onLoadingCb}
+                />}/>
             ))}
         </Slider>
     );
