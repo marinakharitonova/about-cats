@@ -4,10 +4,11 @@ import Carousel from "@/components/Carousel/Carousel";
 import {Badge, ButtonGroup, Divider, Heading, Link, Stack, Text} from "@chakra-ui/react";
 import StarsRating from "@/components/StarsRating";
 import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {fetchWithParams, getFetcher} from "@/lib/fetchers/fetchers";
+import {imagesFetcher, getFetcher} from "@/lib/fetchers/fetchers";
 import {IBreed} from "@/types/IBreed";
 import {IImage} from "@/types/Iimage";
 import useSWR from "swr";
+import {BREEDS_IMAGES_COUNT} from "@/pages/breeds";
 
 const breedCharacters: (keyof IBreed)[] = [
     "adaptability",
@@ -49,7 +50,7 @@ function BreedCard({breedId}: { breedId: string }) {
     const {
         data: breedImages,
         isValidating: isBreedImagesValidating
-    } = useSWR<IImage[]>(['/api/images', {breed_ids: breedId, limit: 5}], fetchWithParams)
+    } = useSWR<IImage[]>(['/api/images', {breed_ids: breedId, limit: BREEDS_IMAGES_COUNT}], imagesFetcher)
 
     return (
         <Card transition="0.3s ease"

@@ -6,7 +6,7 @@ import useSWRMutation from 'swr/mutation'
 import {AiFillHeart, AiOutlineDislike, AiOutlineHeart, AiOutlineLike} from "react-icons/ai";
 import {useState} from 'react';
 import {IImage} from "@/types/Iimage";
-import {delFetcher, getFetcher, postFetcher} from "@/lib/fetchers/fetchers";
+import {delFetcher, getFetcher, imagesFetcher, postFetcher} from "@/lib/fetchers/fetchers";
 
 interface IVoteMutationArg {
     image_id: string
@@ -29,7 +29,7 @@ export default function Home() {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [isFav, setIsFav] = useState(false)
 
-    const {data, isLoading, mutate, isValidating} = useSWRImmutable<IImage[]>('/api/images', getFetcher)
+    const {data, isLoading, mutate, isValidating} = useSWRImmutable<IImage[]>(['/api/images', {order: 'RANDOM'}], imagesFetcher)
 
     const {
         trigger: triggerVote,

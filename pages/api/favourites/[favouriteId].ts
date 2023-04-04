@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {instance, requestHelper} from "@/pages/api/axiosInstance";
+import {instance} from "@/lib/axiosInstance";
+import requestHandler from "@/lib/requestHandler";
 
 interface IRemoveFavResponse {
     message: string
@@ -8,8 +9,8 @@ interface IRemoveFavResponse {
 /**
  * Remove the image from favorites
  */
-export default function handler(req: NextApiRequest, res: NextApiResponse<IRemoveFavResponse | string>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<IRemoveFavResponse | string>) {
     const { favouriteId } = req.query
-    const promise = instance.delete(`favourites/${favouriteId}`)
-    requestHelper(req, res, promise)
+
+    await requestHandler(req, res, instance.delete(`favourites/${favouriteId}`))
 }

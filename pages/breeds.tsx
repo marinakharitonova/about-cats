@@ -6,7 +6,12 @@ import {Container, Select} from "@chakra-ui/react";
 import BreedCard from "@/components/BreedCard";
 import {IBreed} from "@/types/IBreed";
 import {IImage} from "@/types/Iimage";
-import {BREEDS_IMAGES_COUNT, DEFAULT_BREED_ID, fetchBreed, fetchBreedImages, fetchBreeds} from "@/lib/fetchBreedsPage";
+import {fetchBreeds} from "@/lib/fetchBreeds";
+import {fetchBreedById} from "@/lib/fetchBreedById";
+import {fetchImages} from "@/lib/fetchImges";
+
+export const BREEDS_IMAGES_COUNT = 5
+const DEFAULT_BREED_ID = 'abys'
 
 type BreedsProps = {
     breeds: IBreed[],
@@ -16,18 +21,16 @@ type BreedsProps = {
 }
 
 export async function getStaticProps() {
-    const breedInfo = await fetchBreed()
-    const breedImages = await fetchBreedImages()
+    const params = {breed_ids: DEFAULT_BREED_ID, limit: BREEDS_IMAGES_COUNT}
+    const breedResponse = await fetchBreedById(DEFAULT_BREED_ID)
+    const imagesResponse = await fetchImages(params)
     const breeds = await fetchBreeds()
 
     return {
         props: {
             fallback: {
-                [unstable_serialize(['/api/images', {
-                    limit: BREEDS_IMAGES_COUNT,
-                    breed_ids: DEFAULT_BREED_ID
-                }])]: breedImages,
-                ['/api/breeds/' + DEFAULT_BREED_ID]: breedInfo
+                [unstable_serialize(['/api/images', params])]: imagesResponse.data,
+                ['/api/breeds/' + DEFAULT_BREED_ID]: breedResponse.data
             },
             breeds
         }
@@ -40,7 +43,7 @@ export async function getStaticProps() {
 export default function Breeds({fallback, breeds}: BreedsProps) {
     const [breedId, setBreedId] = useState(DEFAULT_BREED_ID)
     return (
-        <SWRConfig value={{fallback, keepPreviousData: true, revalidateOnFocus: false}}>
+        <SWRConfig value={{fallback, keepPreviousData: true, revalidateOnFocus: false, revalidateOnMount: false}}>
             <Head>
                 <title>Breeds</title>
             </Head>
