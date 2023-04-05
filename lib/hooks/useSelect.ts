@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 
-export const useSelect = (initialValue: string): [string, (e: React.ChangeEvent<HTMLSelectElement>) => void] => {
+export const useSelect = (initialValue: string): [string, (e: React.ChangeEvent<HTMLSelectElement>) => void, typeof setValue] => {
     const [value, setValue] = useState(initialValue)
 
     const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -11,5 +11,5 @@ export const useSelect = (initialValue: string): [string, (e: React.ChangeEvent<
         setValue(selectedValue)
     }
 
-    return [value, onChange]
+    return [value, onChange, setValue]
 }

@@ -11,6 +11,9 @@ import {fetchBreeds} from "@/lib/fetchBreeds";
 import {IBreed} from "@/types/IBreed";
 import {fetchCategories} from "@/lib/fetchCategories";
 import {ICategory} from "@/types/ICategory";
+import {useSelect} from "@/lib/hooks/useSelect";
+import {IImagesRequestParams} from "@/types/IImagesRequestParams";
+import {filterParams} from "@/lib/filterParams";
 
 type ImagesProps = {
     fallback: {
@@ -23,9 +26,14 @@ type ImagesProps = {
 export const IMAGES_LIMIT = 20
 
 export async function getStaticProps() {
-    const params = {
+    const params: IImagesRequestParams = {
         limit: IMAGES_LIMIT,
-        page: 0
+        page: 0,
+        mime_types: 'jpg,gif,png',
+        has_breeds: 0,
+        category_ids: '',
+        breed_ids: '',
+        order: 'ASC'
     }
     const response = await fetchImages(params)
     const breeds = await fetchBreeds()
@@ -34,7 +42,7 @@ export async function getStaticProps() {
     return {
         props: {
             fallback: {
-                [unstable_serialize(['/api/images', params])]: response.data
+                [unstable_serialize(['/api/images', filterParams(params)])]: response.data
             },
             breeds,
             categories
@@ -46,10 +54,16 @@ function Images({fallback, breeds, categories}: ImagesProps) {
     const [cnt, setCnt] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
 
+    const [breed, selectBreed, setBreed] = useSelect('')
+    const [category, selectCategory] = useSelect('')
+    const [type, selectType] = useSelect('all')
+    const [hasBreed, setHasBreed] = useState(false)
+
     const pages = []
 
     for (let i = 0; i <= cnt; i++) {
-        pages.push(<ImagesGrid index={i} key={i} successCb={() => setIsLoading(false)}/>)
+        pages.push(<ImagesGrid key={i} page={i} type={type} hasBreed={hasBreed} category={category} breed={breed}
+                               successCb={() => setIsLoading(false)}/>)
     }
 
     const handleLoadMoreClick = () => {
@@ -63,7 +77,18 @@ function Images({fallback, breeds, categories}: ImagesProps) {
                 <title>Cats images</title>
             </Head>
 
-            <ImagesFilter breeds={breeds} categories={categories}/>
+            <ImagesFilter breeds={breeds}
+                          categories={categories}
+                          type={type}
+                          breed={breed}
+                          category={category}
+                          hasBreed={hasBreed}
+                          onTypeChange={selectType}
+                          onBreedChange={selectBreed}
+                          onCategoryChange={selectCategory}
+                          setHasBreed={setHasBreed}
+                          setBreed={setBreed}
+            />
 
             <Box>
                 <VStack spacing={6}>

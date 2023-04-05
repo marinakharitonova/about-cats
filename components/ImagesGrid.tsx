@@ -5,25 +5,38 @@ import {Box, Grid} from "@chakra-ui/react";
 import Image from "next/image";
 import ImagePreloader from "@/components/ImagePreloader";
 import {IMAGES_LIMIT} from "@/pages/images";
-import useSWRImmutable from "swr/immutable";
 import useSWR from "swr";
+import {IImagesRequestParams} from "@/types/IImagesRequestParams";
+import {filterParams} from "@/lib/filterParams";
 
 type ImagesPageProps = {
-    index: number,
+    page: number
+    type: string
+    hasBreed: boolean
+    category: string
+    breed: string
     successCb: () => void
 }
 
 /**
  * ImagesGrid component renders a five-column image grid.
  */
-function ImagesGrid({index, successCb}: ImagesPageProps) {
+function ImagesGrid({page, type, hasBreed, successCb, category, breed}: ImagesPageProps) {
+    const params: IImagesRequestParams = {
+        page,
+        limit: IMAGES_LIMIT,
+        mime_types: type === 'static' ? 'jpg,png' : type === 'animated' ? 'gif' : 'jpg,gif,png',
+        has_breeds: hasBreed ? 1 : 0,
+        category_ids: category,
+        breed_ids: breed,
+        order: 'ASC'
+    }
 
     const {
         data
-    } = useSWR<IImage[]>(['/api/images', {
-        page: index,
-        limit: IMAGES_LIMIT
-    }], imagesFetcher, {onSuccess: successCb})
+    } = useSWR<IImage[]>(['/api/images', filterParams(params)], imagesFetcher, {onSuccess: successCb, revalidateOnMount: false})
+
+    console.log(data);
 
     return (
         <>

@@ -9,6 +9,7 @@ import {IImage} from "@/types/Iimage";
 import {fetchBreeds} from "@/lib/fetchBreeds";
 import {fetchBreedById} from "@/lib/fetchBreedById";
 import {fetchImages} from "@/lib/fetchImges";
+import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 
 export const BREEDS_IMAGES_COUNT = 5
 const DEFAULT_BREED_ID = 'abys'
@@ -21,7 +22,7 @@ type BreedsProps = {
 }
 
 export async function getStaticProps() {
-    const params = {breed_ids: DEFAULT_BREED_ID, limit: BREEDS_IMAGES_COUNT}
+    const params: IImagesRequestParams = {breed_ids: DEFAULT_BREED_ID, limit: BREEDS_IMAGES_COUNT}
     const breedResponse = await fetchBreedById(DEFAULT_BREED_ID)
     const imagesResponse = await fetchImages(params)
     const breeds = await fetchBreeds()

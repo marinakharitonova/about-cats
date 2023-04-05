@@ -1,57 +1,65 @@
-import React, {useMemo, useState} from 'react';
-import {Box, Checkbox, Grid, Select, Text} from "@chakra-ui/react";
-import {useSelect} from "@/lib/hooks/useSelect";
+import React, {useMemo} from 'react';
+import {Box, Checkbox, Grid} from "@chakra-ui/react";
 import {IBreed} from "@/types/IBreed";
 import {ICategory} from "@/types/ICategory";
+import ImagesSelect from "@/components/ImagesSelect";
+
+const typeOptions = [{id: 'all', name: "All"}, {id: 'static', name: "Static"}, {id: 'animated', name: "Animated"}]
 
 type ImagesFilterProps = {
     breeds: IBreed[]
     categories: ICategory[]
+    type: string
+    onTypeChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+    breed: string
+    onBreedChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+    category: string
+    onCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+    hasBreed: boolean
+    setHasBreed: React.Dispatch<React.SetStateAction<boolean>>
+    setBreed: React.Dispatch<React.SetStateAction<string>>
 }
 
-function ImagesFilter({breeds, categories}: ImagesFilterProps) {
-    const breedOptions = useMemo(() =>
-        breeds.map(breed => <option key={breed.id} value={breed.id}>{breed.name}</option>), [breeds])
+function ImagesFilter({
+                          breeds,
+                          categories,
+                          type,
+                          onTypeChange,
+                          breed,
+                          onBreedChange,
+                          category,
+                          onCategoryChange,
+                          hasBreed,
+                          setHasBreed,
+                          setBreed
+                      }: ImagesFilterProps) {
+    const mappedBreeds = useMemo(() => breeds.map(breed => ({id: breed.id, name: breed.name})), [breeds])
 
-    const categoryOptions = useMemo(() =>
-        categories.map(category => <option key={category.id}
-                                           value={category.id}>{category.name}</option>), [categories])
+    const handleBreedChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        if (e.target.value) {
+            setHasBreed(true)
+        }
+        onBreedChange(e)
+    }
 
-    const [breed, selectBreed] = useSelect('')
-    const [category, selectCategory] = useSelect('')
-    const [type, selectType] = useSelect('all')
-    const [hasBreed, setHasBreed] = useState(false)
+    const handleHasBreedChange = () => {
+        if (hasBreed) {
+            setBreed('')
+        }
+        setHasBreed(!hasBreed)
+    }
 
     return (
         <Grid templateColumns='repeat(2, 1fr)' gap={4} mb={10}>
+            <ImagesSelect label={'Type'} options={typeOptions} value={type} onChange={onTypeChange}/>
+            <ImagesSelect label={'Category'} options={categories} value={category}
+                          onChange={onCategoryChange}/>
+
             <Box>
-                <Text fontSize='md' mb={1}>Type</Text>
-                <Select value={type} onChange={selectType}>
-                    <option value='all'>All</option>
-                    <option value='static'>Static</option>
-                    <option value='animated'>Animated</option>
-                </Select>
+                <Checkbox isChecked={hasBreed} mt={6} onChange={handleHasBreedChange}>With breed</Checkbox>
             </Box>
-            <Box>
-                <Text fontSize='md' mb={1}>Category</Text>
-                <Select placeholder='None' value={category} onChange={selectCategory}>
-                    {categoryOptions}
-                </Select>
-            </Box>
-            <Box>
-                <Checkbox isChecked={hasBreed} mt={6} onChange={() => setHasBreed(!hasBreed)}>With breed</Checkbox>
-            </Box>
-            <Box>
-                <Text fontSize='md' mb={1}>Breed</Text>
-                <Select placeholder='None' value={breed} onChange={(e) => {
-                    if (e.target.value) {
-                        setHasBreed(true)
-                    }
-                    selectBreed(e)
-                }}>
-                    {breedOptions}
-                </Select>
-            </Box>
+
+            <ImagesSelect label={'Breed'} options={mappedBreeds} value={breed} onChange={handleBreedChange}/>
         </Grid>
     );
 }

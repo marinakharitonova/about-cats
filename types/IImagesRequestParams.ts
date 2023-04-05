@@ -4,5 +4,6 @@ export interface IImagesRequestParams {
     limit?: number
     category_ids?: string
     breed_ids?: string
-    has_breeds?: number
+    has_breeds?: 0 | 1
+    mime_types?: 'jpg,gif,png' | 'jpg,png' | 'gif'
 }
