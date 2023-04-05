@@ -43,7 +43,7 @@ export async function getStaticProps() {
 export default function Breeds({fallback, breeds}: BreedsProps) {
     const [breedId, setBreedId] = useState(DEFAULT_BREED_ID)
     return (
-        <SWRConfig value={{fallback, keepPreviousData: true, revalidateOnFocus: false, revalidateOnMount: false}}>
+        <SWRConfig value={{fallback, keepPreviousData: true, revalidateOnFocus: false}}>
             <Head>
                 <title>Breeds</title>
             </Head>

@@ -1,16 +1,23 @@
 import React, {useState} from 'react';
 import Head from "next/head";
 import {unstable_serialize} from "swr";
-import {Box, Button, Center, Select, VStack, Text, Grid} from "@chakra-ui/react";
+import {Box, Button, Center, VStack} from "@chakra-ui/react";
 import {SWRConfig} from "swr/_internal";
 import {IImage} from "@/types/Iimage";
 import {fetchImages} from "@/lib/fetchImges";
 import ImagesGrid from "@/components/ImagesGrid";
+import ImagesFilter from "@/components/ImagesFilter";
+import {fetchBreeds} from "@/lib/fetchBreeds";
+import {IBreed} from "@/types/IBreed";
+import {fetchCategories} from "@/lib/fetchCategories";
+import {ICategory} from "@/types/ICategory";
 
 type ImagesProps = {
     fallback: {
         [key: string]: IImage[]
     }
+    breeds: IBreed[]
+    categories: ICategory[]
 }
 
 export const IMAGES_LIMIT = 20
@@ -21,17 +28,21 @@ export async function getStaticProps() {
         page: 0
     }
     const response = await fetchImages(params)
+    const breeds = await fetchBreeds()
+    const categories = await fetchCategories()
 
     return {
         props: {
             fallback: {
                 [unstable_serialize(['/api/images', params])]: response.data
-            }
+            },
+            breeds,
+            categories
         }
     }
 }
 
-function Images({fallback}: ImagesProps) {
+function Images({fallback, breeds, categories}: ImagesProps) {
     const [cnt, setCnt] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -52,43 +63,7 @@ function Images({fallback}: ImagesProps) {
                 <title>Cats images</title>
             </Head>
 
-            <Grid templateColumns='repeat(2, 1fr)' gap={4} mb={10}>
-                <Box>
-                    <Text fontSize='md'>Order</Text>
-                    <Select placeholder='Select option'>
-                        <option value='option1'>Option 1</option>
-                        <option value='option2'>Option 2</option>
-                        <option value='option3'>Option 3</option>
-                    </Select>
-                </Box>
-
-                <Box>
-                    <Text fontSize='md'>Type</Text>
-                    <Select placeholder='Select option'>
-                        <option value='all'>All</option>
-                        <option value='static'>Static</option>
-                        <option value='animated'>Animated</option>
-                    </Select>
-                </Box>
-                <Box>
-                    <Text fontSize='md'>Breed</Text>
-                    <Select placeholder='Select option'>
-                        <option value='option1'>Option 1</option>
-                        <option value='option2'>Option 2</option>
-                        <option value='option3'>Option 3</option>
-                    </Select>
-                </Box>
-                <Box>
-                    <Text fontSize='md'>Category</Text>
-                    <Select placeholder='Select option'>
-                        <option value='none'>None</option>
-                        <option value='sinks'>Sinks</option>
-                        <option value='boxes'>Boxes</option>
-                        <option value='boxes'>Boxes</option>
-                    </Select>
-                </Box>
-            </Grid>
-
+            <ImagesFilter breeds={breeds} categories={categories}/>
 
             <Box>
                 <VStack spacing={6}>

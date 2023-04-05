@@ -1,5 +1,4 @@
 import React from 'react';
-import useSWR from "swr";
 import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IImage} from "@/types/Iimage";
 import {Box, Grid} from "@chakra-ui/react";
@@ -7,6 +6,7 @@ import Image from "next/image";
 import ImagePreloader from "@/components/ImagePreloader";
 import {IMAGES_LIMIT} from "@/pages/images";
 import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 
 type ImagesPageProps = {
     index: number,
@@ -20,7 +20,7 @@ function ImagesGrid({index, successCb}: ImagesPageProps) {
 
     const {
         data
-    } = useSWRImmutable<IImage[]>(['/api/images', {
+    } = useSWR<IImage[]>(['/api/images', {
         page: index,
         limit: IMAGES_LIMIT
     }], imagesFetcher, {onSuccess: successCb})
