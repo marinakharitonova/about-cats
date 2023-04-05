@@ -16,7 +16,7 @@ type ImagesFilterProps = {
     category: string
     onCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
     hasBreed: boolean
-    setHasBreed: React.Dispatch<React.SetStateAction<boolean>>
+    onHasBreedChange: (hasBreed: boolean) => void
     setBreed: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -30,14 +30,14 @@ function ImagesFilter({
                           category,
                           onCategoryChange,
                           hasBreed,
-                          setHasBreed,
+                          onHasBreedChange,
                           setBreed
                       }: ImagesFilterProps) {
     const mappedBreeds = useMemo(() => breeds.map(breed => ({id: breed.id, name: breed.name})), [breeds])
 
     const handleBreedChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         if (e.target.value) {
-            setHasBreed(true)
+            onHasBreedChange(true)
         }
         onBreedChange(e)
     }
@@ -46,7 +46,7 @@ function ImagesFilter({
         if (hasBreed) {
             setBreed('')
         }
-        setHasBreed(!hasBreed)
+        onHasBreedChange(!hasBreed)
     }
 
     return (

@@ -1,13 +1,13 @@
 import React from 'react';
 import {imagesFetcher} from "@/lib/fetchers/fetchers";
-import {IImage} from "@/types/Iimage";
-import {Box, Grid} from "@chakra-ui/react";
+import {Box, Grid, Text} from "@chakra-ui/react";
 import Image from "next/image";
 import ImagePreloader from "@/components/ImagePreloader";
 import {IMAGES_LIMIT} from "@/pages/images";
 import useSWR from "swr";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import {filterParams} from "@/lib/filterParams";
+import {IImages} from "@/types/IImages";
 
 type ImagesPageProps = {
     page: number
@@ -15,7 +15,7 @@ type ImagesPageProps = {
     hasBreed: boolean
     category: string
     breed: string
-    successCb: () => void
+    successCb: (imagesCount: number | null) => void
 }
 
 /**
@@ -34,16 +34,22 @@ function ImagesGrid({page, type, hasBreed, successCb, category, breed}: ImagesPa
 
     const {
         data
-    } = useSWR<IImage[]>(['/api/images', filterParams(params)], imagesFetcher, {onSuccess: successCb, revalidateOnMount: false})
-
-    console.log(data);
+    } = useSWR<IImages>(['/api/images', filterParams(params)], imagesFetcher, {
+        onSuccess: data => successCb(data.imagesCount),
+        keepPreviousData: true
+    })
 
     return (
         <>
             {
-                data && <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%'>
-                    {data.map(image => <ImageWrapper src={image.url} key={image.url}/>)}
+                data && data.images.length > 0 && <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%'>
+                    {data.images.map(image => <ImageWrapper src={image.url} key={image.url}/>)}
                 </Grid>
+            }
+
+            {
+                data && data.images.length === 0 &&
+                <Text fontSize='4xl' minH={'752px'} pt={36}>Nothing found. Change your search options.</Text>
             }
 
         </>

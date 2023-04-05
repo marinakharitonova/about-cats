@@ -30,7 +30,10 @@ export async function getStaticProps() {
     return {
         props: {
             fallback: {
-                [unstable_serialize(['/api/images', params])]: imagesResponse.data,
+                [unstable_serialize(['/api/images', params])]: {
+                    images: imagesResponse.data,
+                    imagesCount: imagesResponse.headers['pagination-count'] ? imagesResponse.headers['pagination-count'] : null
+                },
                 ['/api/breeds/' + DEFAULT_BREED_ID]: breedResponse.data
             },
             breeds

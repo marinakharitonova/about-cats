@@ -42,7 +42,10 @@ export async function getStaticProps() {
     return {
         props: {
             fallback: {
-                [unstable_serialize(['/api/images', filterParams(params)])]: response.data
+                [unstable_serialize(['/api/images', filterParams(params)])]: {
+                    images: response.data,
+                    imagesCount: response.headers['pagination-count'] ? response.headers['pagination-count'] : null
+                }
             },
             breeds,
             categories
@@ -51,19 +54,42 @@ export async function getStaticProps() {
 }
 
 function Images({fallback, breeds, categories}: ImagesProps) {
-    const [cnt, setCnt] = useState(0)
+    const [cnt, setCnt] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(false)
 
     const [breed, selectBreed, setBreed] = useSelect('')
     const [category, selectCategory] = useSelect('')
     const [type, selectType] = useSelect('all')
     const [hasBreed, setHasBreed] = useState(false)
 
+    const successCb = (imagesCount: number | null) => {
+        setIsLoading(false)
+        const displayedImagesCount = IMAGES_LIMIT * cnt + IMAGES_LIMIT
+        setIsDisabled(!!(imagesCount && imagesCount <= displayedImagesCount))
+    }
+    const onTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        selectType(e)
+        setCnt(1)
+    }
+    const onBreedChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        selectBreed(e)
+        setCnt(1)
+    }
+    const onCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        selectCategory(e)
+        setCnt(1)
+    }
+    const onHasBreedChange = (hasBreed: boolean) => {
+        setHasBreed(hasBreed)
+        setCnt(1)
+    }
+
     const pages = []
 
-    for (let i = 0; i <= cnt; i++) {
+    for (let i = 0; i < cnt; i++) {
         pages.push(<ImagesGrid key={i} page={i} type={type} hasBreed={hasBreed} category={category} breed={breed}
-                               successCb={() => setIsLoading(false)}/>)
+                               successCb={successCb}/>)
     }
 
     const handleLoadMoreClick = () => {
@@ -83,10 +109,10 @@ function Images({fallback, breeds, categories}: ImagesProps) {
                           breed={breed}
                           category={category}
                           hasBreed={hasBreed}
-                          onTypeChange={selectType}
-                          onBreedChange={selectBreed}
-                          onCategoryChange={selectCategory}
-                          setHasBreed={setHasBreed}
+                          onTypeChange={onTypeChange}
+                          onBreedChange={onBreedChange}
+                          onCategoryChange={onCategoryChange}
+                          onHasBreedChange={onHasBreedChange}
                           setBreed={setBreed}
             />
 
@@ -95,7 +121,9 @@ function Images({fallback, breeds, categories}: ImagesProps) {
                     {pages}
                 </VStack>
                 <Center mt="30px">
-                    <Button colorScheme='blue' onClick={handleLoadMoreClick} isLoading={isLoading}>Load more</Button>
+                    <Button colorScheme='blue' onClick={handleLoadMoreClick} isLoading={isLoading}
+                            isDisabled={isDisabled}>Load
+                        more</Button>
                 </Center>
             </Box>
         </SWRConfig>
