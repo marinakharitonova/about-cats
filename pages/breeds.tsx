@@ -22,7 +22,7 @@ type BreedsProps = {
 }
 
 export async function getStaticProps() {
-    const params: IImagesRequestParams = {breed_ids: DEFAULT_BREED_ID, limit: BREEDS_IMAGES_COUNT}
+    const params: IImagesRequestParams = {breed_ids: DEFAULT_BREED_ID, limit: BREEDS_IMAGES_COUNT, order: "ASC"}
     const breedResponse = await fetchBreedById(DEFAULT_BREED_ID)
     const imagesResponse = await fetchImages(params)
     const breeds = await fetchBreeds()

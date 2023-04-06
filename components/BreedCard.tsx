@@ -10,6 +10,7 @@ import {IImage} from "@/types/Iimage";
 import useSWR from "swr";
 import {BREEDS_IMAGES_COUNT} from "@/pages/breeds";
 import {IImages} from "@/types/IImages";
+import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 
 const breedCharacters: (keyof IBreed)[] = [
     "adaptability",
@@ -48,13 +49,16 @@ function BreedCard({breedId}: { breedId: string }) {
         isValidating: isBreedValidating,
     } = useSWR<IBreed>(`/api/breeds/${breedId}`, getFetcher)
 
+    const imagesRequestParams: IImagesRequestParams = {
+        breed_ids: breedId,
+        limit: BREEDS_IMAGES_COUNT,
+        order: "ASC"
+    }
+
     const {
         data: breedImages,
         isValidating: isBreedImagesValidating
-    } = useSWR<IImages>(['/api/images', {
-        breed_ids: breedId,
-        limit: BREEDS_IMAGES_COUNT
-    }], imagesFetcher)
+    } = useSWR<IImages>(['/api/images', imagesRequestParams], imagesFetcher)
 
     return (
         <Card>

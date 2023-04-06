@@ -8,6 +8,8 @@ import {useState} from 'react';
 import {IImage} from "@/types/Iimage";
 import {delFetcher, getFetcher, imagesFetcher, postFetcher} from "@/lib/fetchers/fetchers";
 import ImagePreloader from "@/components/ImagePreloader";
+import {IImagesRequestParams} from "@/types/IImagesRequestParams";
+import {IImages} from "@/types/IImages";
 
 interface IVoteMutationArg {
     image_id: string
@@ -30,11 +32,13 @@ export default function Home() {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [isFav, setIsFav] = useState(false)
 
+    const params:IImagesRequestParams = {order: 'RANDOM'}
+
     const {
         data,
         isLoading,
         mutate,
-    } = useSWRImmutable<IImage[]>(['/api/images', {order: 'RANDOM'}], imagesFetcher)
+    } = useSWRImmutable<IImages>(['/api/images', params], imagesFetcher)
 
     const {
         trigger: triggerVote,
@@ -53,7 +57,7 @@ export default function Home() {
 
     const vote = (value: number) => {
         setIsImageLoaded(false)
-        triggerVote({image_id: data![0].id, value})
+        triggerVote({image_id: data!.images[0].id, value})
             .then(() => mutate())
             .catch(() => setIsImageLoaded(true))
     }
@@ -84,9 +88,9 @@ export default function Home() {
             <Wrap spacing='12px' direction='column'>
                 <Skeleton isLoaded={!isLoading} w="500px" h="500px">
                     {data &&
-                        <ImagePreloader key={data[0].url} width={'500px'} height={'500px'}
+                        <ImagePreloader key={data.images[0].url} width={'500px'} height={'500px'}
                                         render={onLoadingCb =>
-                                            <ImageWrapper src={data[0].url}
+                                            <ImageWrapper src={data.images[0].url}
                                                           onLoadingCb={() => {
                                                               onLoadingCb()
                                                               setIsImageLoaded(true)
@@ -103,7 +107,7 @@ export default function Home() {
                     <Button colorScheme='teal'
                             isLoading={isFavBtnLoading}
                             leftIcon={isFav ? <AiFillHeart/> : <AiOutlineHeart/>}
-                            onClick={() => toggleFavorite(data![0].id)}
+                            onClick={() => toggleFavorite(data!.images[0].id)}
                     >{isFav ? 'Remove from' : 'Add to'} favorites</Button>
                 </Wrap>
             </Wrap>
