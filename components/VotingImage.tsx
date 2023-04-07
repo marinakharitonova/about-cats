@@ -1,14 +1,14 @@
 import React, {useContext, useState} from 'react';
-import {Skeleton} from "@chakra-ui/react";
 import ImagePreloader from "@/components/ImagePreloader";
-import {UserIdContext} from "@/pages/_app";
 import {delFetcher, postFetcher} from "@/lib/fetchers/fetchers";
 import useSWRMutation from "swr/mutation";
 import {useRandomImage} from "@/lib/hooks/useRandomImage";
-import VotingImageCore from "@/components/VotingImageCore/VotingImageCore";
 import {Arguments, useSWRConfig} from "swr"
 import {IFavorites} from "@/types/IFavorites";
 import {RANDOM_IMAGE_REQUEST_PARAMS} from "@/pages";
+import {UserIdContext} from "@/lib/context/UserIdContext";
+import FavoritingImage from "@/components/FavoringImage/FavoritingImage";
+import Image from "next/image";
 
 interface IFavoriteMutationArg {
     image_id: string
@@ -22,8 +22,6 @@ function VotingImage() {
 
     const {image} = useRandomImage(RANDOM_IMAGE_REQUEST_PARAMS)
     const userId = useContext(UserIdContext)
-
-    //const [favImagesId, setFavImagesId] = useSessionStorage("catsFavImagesId", [] as string[])
 
     const {
         trigger: triggerAddFav,
@@ -97,12 +95,20 @@ function VotingImage() {
             {image &&
                 <ImagePreloader key={image.url} width={'500px'} height={'500px'}>
                     {
-                        onLoadCb => <VotingImageCore src={image.url}
-                                                     onLoadCb={onLoadCb}
-                                                     isFavorite={isFavorite}
-                                                     onClick={toggleFavorite}
-                                                     isDisabled={isMutatingAddFav || isMutatingRemoveFav}
-                        />
+                        onLoadCb => <FavoritingImage imageId={image.id}>
+                            <Image
+                                src={image.url}
+                                alt="Cat"
+                                style={{
+                                    objectFit: 'cover',
+                                    height: '500px',
+                                }}
+                                width="500"
+                                height="500"
+                                priority={true}
+                                onLoad={onLoadCb}
+                            />
+                        </FavoritingImage>
                     }
                 </ImagePreloader>
             }

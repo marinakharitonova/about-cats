@@ -1,9 +1,10 @@
-import {Box, Grid, Text} from "@chakra-ui/react";
-import React from "react";
-import ImagePreloader from "@/components/ImagePreloader";
-import Image from "next/image";
+import {Grid, Text} from "@chakra-ui/react";
+import React, {useContext} from "react";
 import {IImages} from "@/types/IImages";
 import {IFavorites} from "@/types/IFavorites";
+import ImagesGridItem from "@/components/ImagesGridItem";
+import {FavoritesContext} from "@/lib/context/FavoritesContext";
+import FavoringImage from "@/components/FavoringImage/FavoritingImage";
 
 type ImagesGridProps = {
     data: IImages | IFavorites | undefined
@@ -15,14 +16,14 @@ type ImagesGridProps = {
  * Renders an alert text string if data is empty.
  */
 function ImagesGrid({data, alertText}: ImagesGridProps) {
+
     const imagesElems = data && data.images.map(image => {
         if ('image' in image){
-            return <ImageWrapper src={image.image.url} key={image.image.id}/>
+            return <ImagesGridItem src={image.image.url} key={image.image.id} imageId={image.image.id}/>
         } else {
-            return <ImageWrapper src={image.url} key={image.id}/>
+            return <ImagesGridItem src={image.url} key={image.id} imageId={image.id}/>
         }
     })
-
 
     return (
         <>
@@ -43,22 +44,3 @@ function ImagesGrid({data, alertText}: ImagesGridProps) {
 }
 
 export default ImagesGrid;
-
-type ImageWrapperProps = {
-    src: string
-}
-
-export const ImageWrapper = ({src}: ImageWrapperProps) => {
-    return (
-        <Box w="100%" h="170px" pos="relative">
-            <ImagePreloader width={'100%'} height={'170px'} render={(onLoadingCb) => <Image
-                src={src}
-                alt="Cat"
-                fill
-                style={{objectFit: "cover"}}
-                onLoadingComplete={onLoadingCb}
-                sizes="170px"
-            />}/>
-        </Box>
-    )
-}

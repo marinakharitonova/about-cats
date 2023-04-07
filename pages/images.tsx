@@ -13,12 +13,12 @@ import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import {filterParams} from "@/lib/filterParams";
 import ImagesPaginator from "@/components/ImagesPaginator";
 import MainImagesGrid from "@/components/MainImagesGrid";
-import {IImage} from "@/types/IImage";
 import {collectImagesData} from "@/lib/collectImagesData";
+import {IImages} from "@/types/IImages";
 
 type ImagesProps = {
     fallback: {
-        [key: string]: IImage[]
+        [key: string]: IImages
     }
     breeds: IBreed[]
     categories: ICategory[]

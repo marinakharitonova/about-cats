@@ -35,15 +35,19 @@ export default function Carousel({cards, settings = defaultSettings}: CarouselPr
     return (
         <Slider {...settings} key={cards[0]}>
             {cards.map((url, index) => (
-                <ImagePreloader key={url} width={'696px'} height={'600px'} render={(onLoadingCb) => <Image
-                    src={url}
-                    alt="Cat"
-                    className={styles.image}
-                    width="696"
-                    height="600"
-                    priority={index === 0}
-                    onLoadingComplete={onLoadingCb}
-                />}/>
+                <ImagePreloader key={url} width={'696px'} height={'600px'}>
+                    {
+                        onLoadCb => <Image
+                            src={url}
+                            alt="Cat"
+                            className={styles.image}
+                            width="696"
+                            height="600"
+                            priority={index === 0}
+                            onLoadingComplete={onLoadCb}
+                        />
+                    }
+                </ImagePreloader>
             ))}
         </Slider>
     );

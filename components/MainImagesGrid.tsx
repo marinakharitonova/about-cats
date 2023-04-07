@@ -38,6 +38,8 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed}: Imag
         keepPreviousData: true
     })
 
+    console.log(data);
+
     return <ImagesGrid data={data} alertText={'Nothing found. Change your search options.'}/>
 }
 

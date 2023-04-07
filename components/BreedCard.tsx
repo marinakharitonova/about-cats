@@ -4,9 +4,8 @@ import Carousel from "@/components/Carousel/Carousel";
 import {Badge, ButtonGroup, Divider, Heading, Link, Stack, Text} from "@chakra-ui/react";
 import StarsRating from "@/components/StarsRating";
 import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {imagesFetcher, getFetcher} from "@/lib/fetchers/fetchers";
+import {getFetcher, imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IBreed} from "@/types/IBreed";
-import {IImage} from "@/types/Iimage";
 import useSWR from "swr";
 import {BREEDS_IMAGES_COUNT} from "@/pages/breeds";
 import {IImages} from "@/types/IImages";
@@ -52,7 +51,8 @@ function BreedCard({breedId}: { breedId: string }) {
     const imagesRequestParams: IImagesRequestParams = {
         breed_ids: breedId,
         limit: BREEDS_IMAGES_COUNT,
-        order: "ASC"
+        order: "ASC",
+        size: 'med'
     }
 
     const {

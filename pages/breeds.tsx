@@ -9,8 +9,8 @@ import {fetchBreeds} from "@/lib/fetchBreeds";
 import {fetchBreedById} from "@/lib/fetchBreedById";
 import {fetchImages} from "@/lib/fetchImges";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
-import {IImage} from "@/types/IImage";
 import {collectImagesData} from "@/lib/collectImagesData";
+import {IImages} from "@/types/IImages";
 
 export const BREEDS_IMAGES_COUNT = 5
 const DEFAULT_BREED_ID = 'abys'
@@ -18,7 +18,7 @@ const DEFAULT_BREED_ID = 'abys'
 type BreedsProps = {
     breeds: IBreed[],
     fallback: {
-        [key: string]: IBreed | IImage[]
+        [key: string]: IBreed | IImages
     }
 }
 
@@ -44,16 +44,17 @@ export async function getStaticProps() {
  */
 export default function Breeds({fallback, breeds}: BreedsProps) {
     const [breedId, setBreedId] = useState(DEFAULT_BREED_ID)
+    const handleBreedChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setBreedId(e.target.value)
+    }
     return (
-        <SWRConfig value={{fallback, keepPreviousData: true, revalidateOnFocus: false}}>
+        <SWRConfig value={{fallback}}>
             <Head>
                 <title>Breeds</title>
             </Head>
 
             <Container maxW='3xl'>
-                <Select mb='36px' onChange={(e) => {
-                    setBreedId(e.target.value)
-                }}>
+                <Select mb='36px' onChange={handleBreedChange}>
                     {breeds.map(breed => <option value={breed.id} key={breed.id}>{breed.name}</option>)}
                 </Select>
 

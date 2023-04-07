@@ -1,4 +1,5 @@
-import {IImage} from "@/types/Iimage";
+import {IImage} from "@/types/IImage";
+
 
 export interface IImages {
     images: IImage[]
