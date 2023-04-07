@@ -5,11 +5,12 @@ import React, {useState} from "react";
 import {Container, Select} from "@chakra-ui/react";
 import BreedCard from "@/components/BreedCard";
 import {IBreed} from "@/types/IBreed";
-import {IImage} from "@/types/Iimage";
 import {fetchBreeds} from "@/lib/fetchBreeds";
 import {fetchBreedById} from "@/lib/fetchBreedById";
 import {fetchImages} from "@/lib/fetchImges";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
+import {IImage} from "@/types/IImage";
+import {collectImagesData} from "@/lib/collectImagesData";
 
 export const BREEDS_IMAGES_COUNT = 5
 const DEFAULT_BREED_ID = 'abys'
@@ -30,10 +31,7 @@ export async function getStaticProps() {
     return {
         props: {
             fallback: {
-                [unstable_serialize(['/api/images', params])]: {
-                    images: imagesResponse.data,
-                    imagesCount: imagesResponse.headers['pagination-count'] ? imagesResponse.headers['pagination-count'] : null
-                },
+                [unstable_serialize(['/api/images', params])]: collectImagesData(imagesResponse),
                 ['/api/breeds/' + DEFAULT_BREED_ID]: breedResponse.data
             },
             breeds
