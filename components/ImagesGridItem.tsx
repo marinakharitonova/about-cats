@@ -12,7 +12,7 @@ type ImagesGridItemProps = {
 function ImagesGridItem({src, imageId}: ImagesGridItemProps) {
 
     return (
-        <FavoringImage imageId={imageId} isDisabled={false} onClick={() => {}}>
+        <FavoringImage imageId={imageId} src={src} size={50}>
             <Box w="100%" h="170px" pos="relative">
                 <ImagePreloader width={'100%'} height={'170px'}>
                     {

@@ -5,9 +5,10 @@ import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
 import styles from "./FavoritingImage.module.css"
 import {useFavorites} from "@/lib/hooks/useFavorites";
 import {UserIdContext} from "@/lib/context/UserIdContext";
-import {Arguments} from "swr";
+import {Arguments, mutate} from "swr";
 import useSWRMutation from "swr/mutation";
 import {delFetcher, postFetcher} from "@/lib/fetchers/fetchers";
+import {IFavorites} from "@/types/IFavorites";
 
 interface IFavoriteMutationArg {
     image_id: string
@@ -17,9 +18,11 @@ interface IFavoriteMutationArg {
 type FavoringImageProps = {
     children: React.ReactNode,
     imageId: string
+    src: string
+    size: number
 }
 
-function FavoringImage({children, imageId}: FavoringImageProps) {
+function FavoringImage({children, imageId, src, size}: FavoringImageProps) {
     const userId = useContext(UserIdContext)
     const {favorites, isFavoritesLoading} = useFavorites({order: 'DESC', sub_id: userId})
 
@@ -28,7 +31,7 @@ function FavoringImage({children, imageId}: FavoringImageProps) {
 
     useEffect(() => {
         const favoriteImage = favorites?.images.filter(favorite => favorite.image_id === imageId)[0]
-        if (favoriteImage){
+        if (favoriteImage) {
             setIsFavorite(favoriteImage.image_id === imageId)
             setRemoveId(favoriteImage.id)
         }
@@ -45,25 +48,25 @@ function FavoringImage({children, imageId}: FavoringImageProps) {
     } = useSWRMutation(`/api/favourites/${removeId}`, delFetcher)
 
     const toggleFavorite = async () => {
-        const matcher = (key: Arguments) => Array.isArray(key) && key[0] === '/api/favourites' && key[1].sub_id === userId && key[0].page === 0
+        const matcher = (key: Arguments) => Array.isArray(key) && key[0] === '/api/favourites' && key[1].sub_id === userId && key[1].order === "DESC"
         if (isFavorite) {
             try {
                 await triggerRemoveFav()
                 setRemoveId(-1)
                 setIsFavorite(false)
 
-                // await mutate(
-                //     key => matcher(key),
-                //     undefined,
-                //     {
-                //         populateCache: (_, currentData: IFavorites) => ({
-                //             ...currentData,
-                //             imagesCount: currentData.imagesCount ? currentData.imagesCount - 1 : 0,
-                //             images: currentData.images.filter(image => image.id !== favoriteImageId)
-                //         }),
-                //         revalidate: false
-                //     }
-                // )
+                await mutate(
+                    key => matcher(key),
+                    undefined,
+                    {
+                        populateCache: (_, currentData: IFavorites) => ({
+                            ...currentData,
+                            imagesCount: currentData.imagesCount ? currentData.imagesCount - 1 : 0,
+                            images: currentData.images.filter(image => image.image_id !== imageId)
+                        }),
+                        revalidate: false
+                    }
+                )
             } catch {
             }
         } else {
@@ -72,29 +75,29 @@ function FavoringImage({children, imageId}: FavoringImageProps) {
                 setRemoveId(res.id)
                 setIsFavorite(true)
 
-                // await mutate(
-                //     key => matcher(key),
-                //     undefined,
-                //     {
-                //         populateCache: (_, currentData: IFavorites) => ({
-                //             ...currentData,
-                //             imagesCount: currentData.imagesCount ? currentData.imagesCount + 1 : 1,
-                //             images: [{
-                //                 created_at: new Date().toISOString(),
-                //                 id: res.id,
-                //                 image:
-                //                     {
-                //                         id: image!.id,
-                //                         url: image!.url
-                //                     },
-                //                 image_id: image!.id,
-                //                 sub_id: userId,
-                //                 user_id: ""
-                //             }, ...currentData.images]
-                //         }),
-                //         revalidate: false
-                //     }
-                // )
+                await mutate(
+                    key => matcher(key),
+                    undefined,
+                    {
+                        populateCache: (_, currentData: IFavorites) => ({
+                            ...currentData,
+                            imagesCount: currentData.imagesCount ? currentData.imagesCount + 1 : 1,
+                            images: [{
+                                created_at: new Date().toISOString(),
+                                id: res.id,
+                                image:
+                                    {
+                                        id: imageId,
+                                        url: src
+                                    },
+                                image_id: imageId,
+                                sub_id: userId,
+                                user_id: ""
+                            }, ...currentData.images]
+                        }),
+                        revalidate: false
+                    }
+                )
 
             } catch {
             }
@@ -106,8 +109,8 @@ function FavoringImage({children, imageId}: FavoringImageProps) {
             <Box bg={'gray.50'} className={styles.shadow}/>
             <Button leftIcon={
                 isFavorite
-                    ? <Icon as={AiFillHeart} w={100} h={100} color='red.500'/>
-                    : <Icon as={AiOutlineHeart} w={100} h={100} color='red.500'/>}
+                    ? <Icon as={AiFillHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
+                    : <Icon as={AiOutlineHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>}
                     variant='link'
                     className={styles.button}
                     onClick={toggleFavorite}
