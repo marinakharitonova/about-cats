@@ -1,15 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Card, CardBody, CardFooter} from "@chakra-ui/card";
 import Carousel from "@/components/Carousel/Carousel";
 import {Badge, ButtonGroup, Divider, Heading, Link, Stack, Text} from "@chakra-ui/react";
 import StarsRating from "@/components/StarsRating";
 import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {getFetcher, imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IBreed} from "@/types/IBreed";
-import useSWR from "swr";
 import {BREEDS_IMAGES_COUNT} from "@/pages/breeds";
-import {IImages} from "@/types/IImages";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
+import {useBreedById} from "@/lib/hooks/useBreedById";
+import {useImages} from "@/lib/hooks/useImages";
 
 const breedCharacters: (keyof IBreed)[] = [
     "adaptability",
@@ -43,10 +42,8 @@ const transformPropertyName = (str: string) => {
  * images carousel, breed's name, description, characteristics, peculiarities, links to external resources.
  */
 function BreedCard({breedId}: { breedId: string }) {
-    const {
-        data: breedInfo,
-        isValidating: isBreedValidating,
-    } = useSWR<IBreed>(`/api/breeds/${breedId}`, getFetcher)
+    const [isFallbackInfo, setIsFallbackInfo] = useState(true)
+    const [isFallbackImages, setIsFallbackImages] = useState(true)
 
     const imagesRequestParams: IImagesRequestParams = {
         breed_ids: breedId,
@@ -55,17 +52,29 @@ function BreedCard({breedId}: { breedId: string }) {
         size: 'med'
     }
 
-    const {
-        data: breedImages,
-        isValidating: isBreedImagesValidating
-    } = useSWR<IImages>(['/api/images', imagesRequestParams], imagesFetcher)
+    const {breedInfo, isBreedValidating} = useBreedById(breedId, {
+        onSuccess: () => {
+            setIsFallbackInfo(false)
+        }
+    })
+
+    const {images: breedImages, isValidating: isBreedImagesValidating} = useImages(imagesRequestParams, {
+        onSuccess: () => {
+            setIsFallbackImages(false)
+        }
+    })
+
+    let isLightOpacity = false
+    if (!isFallbackInfo && !isFallbackImages) {
+        isLightOpacity = isBreedImagesValidating || isBreedValidating
+    }
 
     return (
         <Card>
-            <CardBody>
-                {breedImages && <Carousel cards={breedImages.images.map(bi => bi.url)}/>}
-                <Stack mt='6' spacing='3' transition="0.3s ease"
-                       opacity={isBreedValidating || isBreedImagesValidating ? '0.7' : '1'}>
+            <CardBody opacity={isLightOpacity ? '0.7' : '1'}
+                      transition="0.3s ease">
+                {breedImages && <Carousel cards={breedImages.map(bi => bi.url)}/>}
+                <Stack mt='6' spacing='3'>
                     <Stack direction='row'>
                         {breedPeculiarities.map(bp => {
                             if (breedInfo?.[bp]) {
@@ -99,15 +108,21 @@ function BreedCard({breedId}: { breedId: string }) {
             <Divider/>
             <CardFooter>
                 <ButtonGroup spacing='2'>
-                    <Link href={breedInfo?.cfa_url} isExternal>
-                        CFA <ExternalLinkIcon mx='2px'/>
-                    </Link>
-                    <Link href={breedInfo?.vetstreet_url} isExternal>
-                        vetSTREET <ExternalLinkIcon mx='2px'/>
-                    </Link>
-                    <Link href={breedInfo?.wikipedia_url} isExternal>
-                        Wikipedia <ExternalLinkIcon mx='2px'/>
-                    </Link>
+                    {
+                        breedInfo?.cfa_url && <Link href={breedInfo?.cfa_url} isExternal>
+                            CFA <ExternalLinkIcon mx='2px'/>
+                        </Link>
+                    }
+                    {
+                        breedInfo?.vetstreet_url && <Link href={breedInfo?.vetstreet_url} isExternal>
+                            vetSTREET <ExternalLinkIcon mx='2px'/>
+                        </Link>
+                    }
+                    {
+                        breedInfo?.wikipedia_url && <Link href={breedInfo?.wikipedia_url} isExternal>
+                            Wikipedia <ExternalLinkIcon mx='2px'/>
+                        </Link>
+                    }
                 </ButtonGroup>
             </CardFooter>
         </Card>
