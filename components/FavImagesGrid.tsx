@@ -1,14 +1,9 @@
-import React, {memo, useContext, useEffect} from 'react';
+import React, {memo, useContext} from 'react';
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
-import useSWR from "swr";
-import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {FAV_IMAGES_LIMIT} from "@/pages/favorites";
 import ImagesGrid from "@/components/ImagesGrid";
-import {IFavorites} from "@/types/IFavorites";
 import {canLoadMore} from "@/lib/canLoadMore";
-import {Box, Grid, Skeleton, useConst} from "@chakra-ui/react";
-import {filterParams} from "@/lib/filterParams";
-import {useLocalStorage} from "@/lib/hooks/useLocalStorage";
+import {Grid, Skeleton} from "@chakra-ui/react";
 import {UserIdContext} from "@/lib/context/UserIdContext";
 import {useFavorites} from "@/lib/hooks/useFavorites";
 
@@ -28,13 +23,10 @@ function FavImagesGrid({page, successCb}: FavImagesGridProps) {
         onSuccess: data => successCb(canLoadMore(FAV_IMAGES_LIMIT, page, data.imagesCount))
     })
 
-    console.log(favorites);
-
     const skeletonElems = []
     for (let i = 0; i < 10; i++) {
         skeletonElems.push(<Skeleton key={i} height='170px'/>)
     }
-
 
     return (
         <>
@@ -42,7 +34,7 @@ function FavImagesGrid({page, successCb}: FavImagesGridProps) {
                 <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%' alignContent={'flex-start'} minH={'752px'}>
                     {skeletonElems}
                 </Grid>}
-            <ImagesGrid data={favorites} alertText={`No Favorites yet, just click on one of the images in Vote or Search to 'Fav-it'`}/>
+            <ImagesGrid images={favorites} alertText={`No Favorites yet, just click on one of the images in Vote or Search to 'Fav-it'`}/>
         </>
     )
 }

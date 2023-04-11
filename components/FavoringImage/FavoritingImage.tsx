@@ -30,12 +30,12 @@ function FavoringImage({children, imageId, src, size}: FavoringImageProps) {
     const [removeId, setRemoveId] = useState(-1)
 
     useEffect(() => {
-        const favoriteImage = favorites?.images.filter(favorite => favorite.image_id === imageId)[0]
+        const favoriteImage = favorites && favorites.filter(favorite => favorite.image_id === imageId)[0]
         if (favoriteImage) {
             setIsFavorite(favoriteImage.image_id === imageId)
             setRemoveId(favoriteImage.id)
         }
-    }, [favorites?.images, imageId])
+    }, [favorites, imageId])
 
     const {
         trigger: triggerAddFav,

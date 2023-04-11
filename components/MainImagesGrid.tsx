@@ -1,12 +1,9 @@
 import React, {memo} from 'react';
-import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IMAGES_LIMIT} from "@/pages/images";
-import useSWR from "swr";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
-import {filterParams} from "@/lib/filterParams";
-import {IImages} from "@/types/IImages";
 import ImagesGrid from "@/components/ImagesGrid";
 import {canLoadMore} from "@/lib/canLoadMore";
+import {useImages} from "@/lib/hooks/useImages";
 
 type ImagesPageProps = {
     page: number
@@ -31,16 +28,9 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed}: Imag
         order: 'ASC'
     }
 
-    const {
-        data
-    } = useSWR<IImages>(['/api/images', filterParams(params)], imagesFetcher, {
-        onSuccess: data => successCb(canLoadMore(IMAGES_LIMIT, page, data.imagesCount)),
-        keepPreviousData: true
-    })
+    const {images} = useImages(params, {onSuccess: data => successCb(canLoadMore(IMAGES_LIMIT, page, data.imagesCount))})
 
-    console.log(data);
-
-    return <ImagesGrid data={data} alertText={'Nothing found. Change your search options.'}/>
+    return <ImagesGrid images={images} alertText={'Nothing found. Change your search options.'}/>
 }
 
 export default memo(MainImagesGrid);

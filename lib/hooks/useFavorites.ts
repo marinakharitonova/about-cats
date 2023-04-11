@@ -13,7 +13,8 @@ export const useFavorites = (params?: IImagesRequestParams, config?: SWRConfigur
     } = useSWRImmutable<IFavorites>(['/api/favourites', filterParams(params ?? {})], imagesFetcher, config)
 
     return {
-        favorites: data,
+        favorites: data?.images,
+        favoritesCount: data?.imagesCount,
         isFavoritesLoading: isLoading,
         isFavoritesValidating: isValidating
     }
