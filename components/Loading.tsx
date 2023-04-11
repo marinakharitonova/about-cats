@@ -12,7 +12,11 @@ function Loading({children}: LoadingProps) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const handleStart = (url: string) => setLoading(true);
+
+        const handleStart = (url: string) => {
+            console.log(router);
+            setLoading(true);
+        }
         const handleComplete = (url: string) => setLoading(false);
 
         router.events.on('routeChangeStart', handleStart)
