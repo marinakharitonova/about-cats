@@ -51,7 +51,7 @@ function ImagesFilter({
 
     return (
         <Grid templateColumns='repeat(2, 1fr)' gap={4} mb={10}>
-            <ImagesSelect label={'Type'} options={typeOptions} value={type} onChange={onTypeChange}/>
+            <ImagesSelect label={'Type'} options={typeOptions} value={type} onChange={onTypeChange} withPlaceholder={false}/>
             <ImagesSelect label={'Category'} options={categories} value={category}
                           onChange={onCategoryChange}/>
 
