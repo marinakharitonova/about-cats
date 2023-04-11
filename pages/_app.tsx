@@ -3,12 +3,12 @@ import {ChakraProvider, useToast} from '@chakra-ui/react'
 import {SWRConfig} from "swr/_internal";
 import Layout from "@/components/Layout";
 import {makeId} from "@/lib/makeId";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {useLocalStorage} from "@/lib/hooks/useLocalStorage";
 import {FavoritesContext} from "@/lib/context/FavoritesContext";
-import {IImage} from "@/types/IImage";
 import {UserIdContext} from "@/lib/context/UserIdContext";
 import {IFavorite} from "@/types/IFavorite";
+import Loading from "@/components/Loading";
 
 const newUserId = makeId(8)
 
@@ -46,7 +46,9 @@ export default function App({Component, pageProps}: AppProps) {
                         revalidateOnFocus: false
                     }}>
                         <Layout>
-                            <Component {...pageProps} />
+                            <Loading>
+                                <Component {...pageProps} />
+                            </Loading>
                         </Layout>
                     </SWRConfig>
                 </FavoritesContext.Provider>

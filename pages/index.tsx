@@ -2,13 +2,15 @@ import Head from 'next/head'
 import VotingImage from "@/components/VotingImage";
 import VotingButtons from "@/components/VotingButtons";
 import {Wrap} from "@chakra-ui/react";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import {fetchImages} from "@/lib/fetchImges";
 import {unstable_serialize} from "swr";
 import {collectImagesData} from "@/lib/collectImagesData";
 import {SWRConfig} from "swr/_internal";
 import {IImages} from "@/types/IImages";
+import {useRouter} from "next/router";
+import Loading from "@/components/Loading";
 
 type HomeProps = {
     fallback: {
@@ -36,6 +38,7 @@ export async function getServerSideProps() {
  * add/remove to favorites
  */
 export default function Home({fallback}: HomeProps) {
+
     return (
         <SWRConfig value={{fallback}}>
             <Head>
@@ -47,5 +50,6 @@ export default function Home({fallback}: HomeProps) {
                 <VotingButtons/>
             </Wrap>
         </SWRConfig>
+
     )
 }
