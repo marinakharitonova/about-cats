@@ -28,7 +28,7 @@ function ImagesPaginator({children}: ImagesPaginatorProps) {
 
     return (
         <Box>
-            <VStack spacing={6}>
+            <VStack spacing={6} minH={'752px'}>
                 {pages}
             </VStack>
             <Center mt="30px">

@@ -27,14 +27,14 @@ function ImagesGrid({images, alertText}: ImagesGridProps) {
         <>
             {
                 images && images.length > 0 &&
-                <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%' minH={'752px'} alignContent={'flex-start'}>
+                <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%'>
                     {imagesElems}
                 </Grid>
             }
 
             {
                 images && images.length === 0 &&
-                <Text fontSize='4xl' minH={'752px'} pt={36} textAlign={'center'}>{alertText}</Text>
+                <Text fontSize='4xl' pt={36} textAlign={'center'}>{alertText}</Text>
             }
 
         </>
