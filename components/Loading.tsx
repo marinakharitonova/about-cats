@@ -14,10 +14,15 @@ function Loading({children}: LoadingProps) {
     useEffect(() => {
 
         const handleStart = (url: string) => {
-            console.log(router);
-            setLoading(true);
+            if (url === '/'){
+                setLoading(true)
+            }
         }
-        const handleComplete = (url: string) => setLoading(false);
+        const handleComplete = (url: string) => {
+            if (url === '/'){
+                setLoading(false)
+            }
+        }
 
         router.events.on('routeChangeStart', handleStart)
         router.events.on('routeChangeComplete', handleComplete)
