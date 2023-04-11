@@ -1,7 +1,6 @@
 import React from 'react';
 import {HStack} from "@chakra-ui/react";
 import NavLink from "@/components/NavLink";
-import {Link} from "@chakra-ui/next-js";
 
 const linksNames = [
     {
@@ -27,8 +26,8 @@ function Navbar() {
     return (
         <HStack spacing='24px'>
             {linksNames.map(linkName =>
-                <Link key={linkName.name} href={'/' + linkName.url} color='blue.400' _hover={{color: 'blue.500'}}
-                         >{linkName.name}</Link>)}
+                <NavLink key={linkName.name} href={'/' + linkName.url} color='blue.400' _hover={{color: 'blue.500'}}
+                         activeProps={{textDecoration: 'underline'}}>{linkName.name}</NavLink>)}
         </HStack>
     );
 }
