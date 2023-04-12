@@ -12,10 +12,8 @@ function Favorites() {
                 <title>Favorites images</title>
             </Head>
 
-            <ImagesPaginator>
-                {(page: number, successCb: (canLoadMore: boolean) => void) =>
-                    <FavImagesGrid key={page} page={page} successCb={successCb}/>}
-            </ImagesPaginator>
+            <ImagesPaginator main={(page: number, successCb: (canLoadMore: boolean) => void) =>
+                <FavImagesGrid key={page} page={page} successCb={successCb}/>}/>
         </>
     );
 }

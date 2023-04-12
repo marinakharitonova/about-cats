@@ -2,10 +2,11 @@ import React, {memo, useCallback, useState} from 'react';
 import {Box, Button, Center, VStack} from "@chakra-ui/react";
 
 type ImagesPaginatorProps = {
-    children: (page: number, successCb: (canLoadMore: boolean) => void) => React.ReactNode
+    main: (page: number, successCb: (canLoadMore: boolean) => void) => React.ReactNode
+    imagesFilter?: (onFilterChange: () => void) => React.ReactNode
 }
 
-function ImagesPaginator({children}: ImagesPaginatorProps) {
+function ImagesPaginator({main, imagesFilter}: ImagesPaginatorProps) {
     const [cnt, setCnt] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [canLoadMore, setCanLoadMore] = useState(false)
@@ -18,7 +19,7 @@ function ImagesPaginator({children}: ImagesPaginatorProps) {
     const pages = []
 
     for (let i = 0; i < cnt; i++) {
-        pages.push(children(i, successCb))
+        pages.push(main(i, successCb))
     }
 
     const handleLoadMoreClick = () => {
@@ -27,17 +28,21 @@ function ImagesPaginator({children}: ImagesPaginatorProps) {
     }
 
     return (
-        <Box>
-            <VStack spacing={6} minH={'752px'}>
-                {pages}
-            </VStack>
-            <Center mt="30px">
-                <Button colorScheme='blue' onClick={handleLoadMoreClick} isLoading={isLoading}
-                        isDisabled={!canLoadMore}>
-                    Load more
-                </Button>
-            </Center>
-        </Box>
+        <>
+            {imagesFilter && imagesFilter(() => setCnt(1))}
+            <Box>
+                <VStack spacing={6} minH={'752px'}>
+                    {pages}
+                </VStack>
+                <Center mt="30px">
+                    <Button colorScheme='blue' onClick={handleLoadMoreClick} isLoading={isLoading}
+                            isDisabled={!canLoadMore}>
+                        Load more
+                    </Button>
+                </Center>
+            </Box>
+        </>
+
     );
 }
 

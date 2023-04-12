@@ -57,50 +57,55 @@ function Images({fallback, breeds, categories}: ImagesProps) {
     const [type, selectType] = useSelect('all')
     const [hasBreed, setHasBreed] = useState(false)
 
-    const onTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        selectType(e)
-    }
-    const onBreedChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        selectBreed(e)
-    }
-    const onCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        selectCategory(e)
-    }
-    const onHasBreedChange = (hasBreed: boolean) => {
-        setHasBreed(hasBreed)
-    }
-
     return (
         <SWRConfig value={{fallback, revalidateOnFocus: false}}>
             <Head>
                 <title>Cats images</title>
             </Head>
 
-            <ImagesFilter breeds={breeds}
-                          categories={categories}
-                          type={type}
-                          breed={breed}
-                          category={category}
-                          hasBreed={hasBreed}
-                          onTypeChange={onTypeChange}
-                          onBreedChange={onBreedChange}
-                          onCategoryChange={onCategoryChange}
-                          onHasBreedChange={onHasBreedChange}
-                          setBreed={setBreed}
+            <ImagesPaginator
+                imagesFilter={
+                    (onFilterChange) => {
+                        return <ImagesFilter breeds={breeds}
+                                             categories={categories}
+                                             type={type}
+                                             breed={breed}
+                                             category={category}
+                                             hasBreed={hasBreed}
+                                             onTypeChange={e => {
+                                                 onFilterChange()
+                                                 selectType(e)
+                                             }}
+                                             onBreedChange={e => {
+                                                 onFilterChange()
+                                                 selectBreed(e)
+                                             }}
+                                             onCategoryChange={e => {
+                                                 onFilterChange()
+                                                 selectCategory(e)
+                                             }}
+                                             onHasBreedChange={() => {
+                                                 onFilterChange()
+                                                 setHasBreed(prevState => !prevState)
+                                             }}
+                                             setBreed={setBreed}
+                                             setHasBreed={setHasBreed}
+                        />
+                    }
+                }
+                main={
+                    (page: number, successCb: (canLoadMore: boolean) => void) =>
+                        <MainImagesGrid
+                            key={page}
+                            breed={breed}
+                            category={category}
+                            hasBreed={hasBreed}
+                            successCb={successCb}
+                            page={page}
+                            type={type}
+                        />
+                }
             />
-
-            <ImagesPaginator>
-                {(page: number, successCb: (canLoadMore: boolean) => void) =>
-                   <MainImagesGrid
-                       key={page}
-                       breed={breed}
-                       category={category}
-                       hasBreed={hasBreed}
-                       successCb={successCb}
-                       page={page}
-                       type={type}
-                   />}
-            </ImagesPaginator>
         </SWRConfig>
     );
 }

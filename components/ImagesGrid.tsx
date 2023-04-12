@@ -14,7 +14,6 @@ type ImagesGridProps = {
  * Renders an alert text string if data is empty.
  */
 function ImagesGrid({images, alertText}: ImagesGridProps) {
-
     const imagesElems = images && images.map(image => {
         if ('image' in image) {
             return <ImagesGridItem src={image.image.url} key={image.image.id}
