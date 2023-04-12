@@ -1,5 +1,5 @@
 import {Grid, Text} from "@chakra-ui/react";
-import React from "react";
+import React, {useState} from "react";
 import ImagesGridItem from "@/components/ImagesGridItem";
 import {IImage} from "@/types/IImage";
 import {IFavorite} from "@/types/IFavorite";
@@ -7,13 +7,14 @@ import {IFavorite} from "@/types/IFavorite";
 type ImagesGridProps = {
     images: IImage[] | IFavorite[] | undefined
     alertText: string
+    style?:  React.CSSProperties
 }
 
 /**
  * ImagesGrid component renders a five-column image grid from given data.
  * Renders an alert text string if data is empty.
  */
-function ImagesGrid({images, alertText}: ImagesGridProps) {
+function ImagesGrid({images, alertText, style}: ImagesGridProps) {
     const imagesElems = images && images.map(image => {
         if ('image' in image) {
             return <ImagesGridItem src={image.image.url} key={image.image.id}
@@ -27,7 +28,7 @@ function ImagesGrid({images, alertText}: ImagesGridProps) {
         <>
             {
                 images && images.length > 0 &&
-                <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%'>
+                <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%' style={style}>
                     {imagesElems}
                 </Grid>
             }
