@@ -1,8 +1,7 @@
 import React from 'react';
-import {Box, Button, Container, Flex, Link} from "@chakra-ui/react";
+import {Box, Container, Flex} from "@chakra-ui/react";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
-import {AiFillGithub} from "react-icons/all";
 import Footer from "@/components/Footer/Footer";
 
 type LayoutProps = {
@@ -27,7 +26,7 @@ function Layout({children}: LayoutProps) {
             </header>
             <main>
                 <Box>
-                    <Container maxW='5xl' paddingY={6}>
+                    <Container maxW='5xl' paddingY={8}>
                         {children}
                     </Container>
                 </Box>

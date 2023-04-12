@@ -2,8 +2,8 @@ import React from 'react';
 import ImagePreloader from "@/components/ImagePreloader";
 import {useRandomImage} from "@/lib/hooks/useRandomImage";
 import {RANDOM_IMAGE_REQUEST_PARAMS} from "@/pages";
-import FavoritingImage from "@/components/FavoringImage/FavoritingImage";
 import Image from "next/image";
+import FavoringImage from "@/components/FavoringImage/FavoringImage";
 
 function VotingImage() {
     const {image} = useRandomImage(RANDOM_IMAGE_REQUEST_PARAMS)
@@ -13,7 +13,7 @@ function VotingImage() {
             {image &&
                 <ImagePreloader key={image.url} width={'500px'} height={'500px'}>
                     {
-                        onLoadCb => <FavoritingImage imageId={image.id} size={100} src={image.url}>
+                        onLoadCb => <FavoringImage imageId={image.id} size={100} src={image.url}>
                             <Image
                                 src={image.url}
                                 alt="Cat"
@@ -26,7 +26,7 @@ function VotingImage() {
                                 priority={true}
                                 onLoad={onLoadCb}
                             />
-                        </FavoritingImage>
+                        </FavoringImage>
                     }
                 </ImagePreloader>
             }

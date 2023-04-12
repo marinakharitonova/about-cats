@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {Box, Button} from "@chakra-ui/react";
 import {Icon} from "@chakra-ui/icons";
 import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
-import styles from "./FavoritingImage.module.css"
-import {useFavorites} from "@/lib/hooks/useFavorites";
+import styles from "./FavoringImage.module.css"
 import {UserIdContext} from "@/lib/context/UserIdContext";
 import {Arguments, mutate} from "swr";
 import useSWRMutation from "swr/mutation";
 import {delFetcher, postFetcher} from "@/lib/fetchers/fetchers";
 import {IFavorites} from "@/types/IFavorites";
+import {useFavoriteState} from "@/lib/hooks/useFavoriteState";
 
 interface IFavoriteMutationArg {
     image_id: string
@@ -20,22 +20,17 @@ type FavoringImageProps = {
     imageId: string
     src: string
     size: number
+    removingId?: number
 }
 
-function FavoringImage({children, imageId, src, size}: FavoringImageProps) {
+function FavoringImage({children, imageId, src, size, removingId}: FavoringImageProps) {
     const userId = useContext(UserIdContext)
-    const {favorites, isFavoritesLoading} = useFavorites({order: 'DESC', sub_id: userId})
-
-    const [isFavorite, setIsFavorite] = useState(false)
-    const [removeId, setRemoveId] = useState(-1)
-
-    useEffect(() => {
-        const favoriteImage = favorites && favorites.filter(favorite => favorite.image_id === imageId)[0]
-        if (favoriteImage) {
-            setIsFavorite(favoriteImage.image_id === imageId)
-            setRemoveId(favoriteImage.id)
-        }
-    }, [favorites, imageId])
+    const {
+        isFavorite,
+        removingId: localRemovingId,
+        setIsFavorite,
+        setRemovingId
+    } = useFavoriteState(imageId, removingId)
 
     const {
         trigger: triggerAddFav,
@@ -45,14 +40,14 @@ function FavoringImage({children, imageId, src, size}: FavoringImageProps) {
     const {
         trigger: triggerRemoveFav,
         isMutating: isMutatingRemoveFav
-    } = useSWRMutation(`/api/favourites/${removeId}`, delFetcher)
+    } = useSWRMutation(`/api/favourites/${localRemovingId}`, delFetcher)
 
     const toggleFavorite = async () => {
-        const matcher = (key: Arguments) => Array.isArray(key) && key[0] === '/api/favourites' && key[1].sub_id === userId && key[1].order === "DESC"
+        const matcher = (key: Arguments) => Array.isArray(key) && key[0] === '/api/favourites' && key[1].sub_id === userId
         if (isFavorite) {
             try {
                 await triggerRemoveFav()
-                setRemoveId(-1)
+                setRemovingId(-1)
                 setIsFavorite(false)
 
                 await mutate(
@@ -72,7 +67,7 @@ function FavoringImage({children, imageId, src, size}: FavoringImageProps) {
         } else {
             try {
                 const res = await triggerAddFav({image_id: imageId, sub_id: userId})
-                setRemoveId(res.id)
+                setRemovingId(res.id)
                 setIsFavorite(true)
 
                 await mutate(

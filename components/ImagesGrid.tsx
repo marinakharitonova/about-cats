@@ -17,7 +17,8 @@ function ImagesGrid({images, alertText}: ImagesGridProps) {
 
     const imagesElems = images && images.map(image => {
         if ('image' in image) {
-            return <ImagesGridItem src={image.image.url} key={image.image.id} imageId={image.image.id}/>
+            return <ImagesGridItem src={image.image.url} key={image.image.id}
+                                   imageId={image.image.id} removingId={image.id}/>
         } else {
             return <ImagesGridItem src={image.url} key={image.id} imageId={image.id}/>
         }
@@ -31,7 +32,6 @@ function ImagesGrid({images, alertText}: ImagesGridProps) {
                     {imagesElems}
                 </Grid>
             }
-
             {
                 images && images.length === 0 &&
                 <Text fontSize='4xl' pt={36} textAlign={'center'}>{alertText}</Text>

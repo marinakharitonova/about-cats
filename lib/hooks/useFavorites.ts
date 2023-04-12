@@ -5,12 +5,12 @@ import {filterParams} from "@/lib/filterParams";
 import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IFavorites} from "@/types/IFavorites";
 
-export const useFavorites = (params?: IImagesRequestParams, config?: SWRConfiguration,) => {
+export const useFavorites = (params?: IImagesRequestParams, config?: SWRConfiguration, isFavoritesPage ?: boolean) => {
     const {
         data,
         isLoading,
         isValidating,
-    } = useSWRImmutable<IFavorites>(['/api/favourites', filterParams(params ?? {})], imagesFetcher, config)
+    } = useSWRImmutable<IFavorites>(isFavoritesPage ? null : ['/api/favourites', filterParams(params ?? {})], imagesFetcher, config)
 
     return {
         favorites: data?.images,
