@@ -29,7 +29,8 @@ function FavoringImage({children, imageId, src, size, removingId}: FavoringImage
         isFavorite,
         removingId: localRemovingId,
         setIsFavorite,
-        setRemovingId
+        setRemovingId,
+        isFavoritesLoading
     } = useFavoriteState(imageId, removingId)
 
     const {
@@ -109,7 +110,7 @@ function FavoringImage({children, imageId, src, size, removingId}: FavoringImage
                     variant='link'
                     className={styles.button}
                     onClick={toggleFavorite}
-                    isDisabled={isMutatingAddFav || isMutatingRemoveFav}
+                    isDisabled={isMutatingAddFav || isMutatingRemoveFav || isFavoritesLoading}
             />
             {children}
         </Box>
