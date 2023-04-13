@@ -3,7 +3,7 @@ import ImagePreloader from "@/components/ImagePreloader";
 import {useRandomImage} from "@/lib/hooks/useRandomImage";
 import {RANDOM_IMAGE_REQUEST_PARAMS} from "@/pages";
 import Image from "next/image";
-import FavoringImage from "@/components/FavoringImage/FavoringImage";
+import FavoringImage from "@/components/FavoringImage";
 
 function VotingImage() {
     const {image} = useRandomImage(RANDOM_IMAGE_REQUEST_PARAMS)

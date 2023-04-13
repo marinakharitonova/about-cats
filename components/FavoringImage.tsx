@@ -1,14 +1,13 @@
 import React, {useContext} from 'react';
-import {Box, Button} from "@chakra-ui/react";
 import {Icon} from "@chakra-ui/icons";
 import {AiFillHeart, AiOutlineHeart} from "react-icons/ai";
-import styles from "./FavoringImage.module.css"
 import {UserIdContext} from "@/lib/context/UserIdContext";
 import {Arguments, mutate} from "swr";
 import useSWRMutation from "swr/mutation";
 import {delFetcher, postFetcher} from "@/lib/fetchers/fetchers";
 import {IFavorites} from "@/types/IFavorites";
 import {useFavoriteState} from "@/lib/hooks/useFavoriteState";
+import ActionImage from "@/components/ActionImage/ActionImage";
 
 interface IFavoriteMutationArg {
     image_id: string
@@ -100,20 +99,16 @@ function FavoringImage({children, imageId, src, size, removingId}: FavoringImage
         }
     }
 
+    const icon = isFavorite
+                 ? <Icon as={AiFillHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
+                 : <Icon as={AiOutlineHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
+
+    const isDisabled = isMutatingAddFav || isMutatingRemoveFav || isFavoritesLoading
+
     return (
-        <Box className={styles.wrapper}>
-            <Box bg={'gray.50'} className={styles.shadow}/>
-            <Button leftIcon={
-                isFavorite
-                    ? <Icon as={AiFillHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
-                    : <Icon as={AiOutlineHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>}
-                    variant='link'
-                    className={styles.button}
-                    onClick={toggleFavorite}
-                    isDisabled={isMutatingAddFav || isMutatingRemoveFav || isFavoritesLoading}
-            />
+        <ActionImage icon={icon} isDisabled={isDisabled} onClick={toggleFavorite}>
             {children}
-        </Box>
+        </ActionImage>
     );
 }
 

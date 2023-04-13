@@ -4,6 +4,7 @@ import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import ImagesGrid from "@/components/ImagesGrid";
 import {canLoadMore} from "@/lib/canLoadMore";
 import {useImages} from "@/lib/hooks/useImages";
+import FavoringImage from "@/components/FavoringImage";
 
 type ImagesPageProps = {
     page: number
@@ -31,7 +32,6 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed, order
         order: order
     }
 
-
     const {
         images,
         isValidating
@@ -42,8 +42,17 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed, order
         }
     })
 
-    return <ImagesGrid images={images} alertText={'Nothing found. Change your search options.'}
-                       style={{opacity: isFallbackData ? '1' : isValidating ? '0.7' : '1'}}/>
+    return (
+        <ImagesGrid images={images} alertText={'Nothing found. Change your search options.'}
+                    style={{opacity: isFallbackData ? '1' : isValidating ? '0.7' : '1'}}>
+            {
+                (children, imageId, removingId, src) =>
+                    <FavoringImage key={imageId} imageId={imageId} size={50} removingId={removingId} src={src!}>
+                        {children}
+                    </FavoringImage>
+            }
+        </ImagesGrid>
+    )
 }
 
 export default memo(MainImagesGrid);

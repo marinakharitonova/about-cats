@@ -6,6 +6,8 @@ import {canLoadMore} from "@/lib/canLoadMore";
 import {Grid, Skeleton} from "@chakra-ui/react";
 import {UserIdContext} from "@/lib/context/UserIdContext";
 import {useFavorites} from "@/lib/hooks/useFavorites";
+import DeletingImage from "@/components/DeletingImage";
+import FavoringImage from "@/components/FavoringImage";
 
 type FavImagesGridProps = {
     page: number
@@ -29,13 +31,25 @@ function FavImagesGrid({page, successCb}: FavImagesGridProps) {
     }
 
     return (
-        <>
-            {isFavoritesLoading &&
-                <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%' alignContent={'flex-start'} minH={'752px'}>
-                    {skeletonElems}
-                </Grid>}
-            <ImagesGrid images={favorites} alertText={`No Favorites yet, just click on one of the images in Vote or Search to 'Fav-it'`}/>
-        </>
+        // <>
+        //     {isFavoritesLoading &&
+        //         <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%' alignContent={'flex-start'} minH={'752px'}>
+        //             {skeletonElems}
+        //         </Grid>}
+        //     <ImagesGrid images={favorites} alertText={`No Favorites yet, just click on one of the images in Vote or Images to 'Fav-it'`}/>
+        // </>
+
+
+        <ImagesGrid images={favorites}
+                    alertText={`No Favorites yet, just click on one of the images in Vote or Images to 'Fav-it'`}
+                    isLoading={isFavoritesLoading}>
+            {
+                (children, imageId, removingId, src) =>
+                    <FavoringImage key={imageId} imageId={imageId} removingId={removingId} size={50} src={src!}>
+                        {children}
+                    </FavoringImage>
+            }
+        </ImagesGrid>
     )
 }
 
