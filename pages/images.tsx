@@ -26,6 +26,8 @@ type ImagesProps = {
 
 export const IMAGES_LIMIT = 20
 
+export type SelectOrder = 'ASC' | 'DESC'
+
 export async function getStaticProps() {
     const params: IImagesRequestParams = {
         limit: IMAGES_LIMIT,
@@ -52,10 +54,11 @@ export async function getStaticProps() {
 }
 
 function Images({fallback, breeds, categories}: ImagesProps) {
-    const [breed, selectBreed, setBreed] = useSelect('')
+    const [breed, selectBreed, setBreed] = useSelect('' as string)
     const [category, selectCategory] = useSelect('')
     const [type, selectType] = useSelect('all')
     const [hasBreed, setHasBreed] = useState(false)
+    const [order, selectOrder] = useSelect<SelectOrder>('ASC')
 
     return (
         <SWRConfig value={{fallback, revalidateOnFocus: false}}>
@@ -90,6 +93,11 @@ function Images({fallback, breeds, categories}: ImagesProps) {
                                              }}
                                              setBreed={setBreed}
                                              setHasBreed={setHasBreed}
+                                             order={order}
+                                             onOrderChange={e => {
+                                                 onFilterChange()
+                                                 selectOrder(e)
+                                             }}
                         />
                     }
                 }
@@ -103,6 +111,7 @@ function Images({fallback, breeds, categories}: ImagesProps) {
                             successCb={successCb}
                             page={page}
                             type={type}
+                            order={order}
                         />
                 }
             />

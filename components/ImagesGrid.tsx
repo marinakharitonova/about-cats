@@ -1,13 +1,14 @@
 import {Grid, Text} from "@chakra-ui/react";
-import React, {useState} from "react";
+import React from "react";
 import ImagesGridItem from "@/components/ImagesGridItem";
 import {IImage} from "@/types/IImage";
 import {IFavorite} from "@/types/IFavorite";
+import {IUpload} from "@/types/IUpload";
 
 type ImagesGridProps = {
-    images: IImage[] | IFavorite[] | undefined
+    images: IImage[] | IFavorite[] | IUpload[] | undefined
     alertText: string
-    style?:  React.CSSProperties
+    style?: React.CSSProperties
 }
 
 /**

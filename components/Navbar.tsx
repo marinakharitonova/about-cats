@@ -17,6 +17,10 @@ const linksNames = [
         url: 'favorites',
         name: 'Favorites'
     },
+    {
+        url: 'upload',
+        name: 'Upload'
+    },
 ]
 
 /**

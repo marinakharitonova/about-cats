@@ -3,8 +3,14 @@ import {Box, Checkbox, Grid} from "@chakra-ui/react";
 import {IBreed} from "@/types/IBreed";
 import {ICategory} from "@/types/ICategory";
 import ImagesSelect from "@/components/ImagesSelect";
+import {SelectOrder} from "@/pages/images";
 
 const typeOptions = [{id: 'all', name: "All"}, {id: 'static', name: "Static"}, {id: 'animated', name: "Animated"}]
+const orderOptions: { id: SelectOrder, name: string }[] =
+    [
+        {id: 'DESC', name: "First new"},
+        {id: 'ASC', name: "First old"}
+    ]
 
 type ImagesFilterProps = {
     breeds: IBreed[]
@@ -19,6 +25,8 @@ type ImagesFilterProps = {
     onHasBreedChange: () => void
     setBreed: React.Dispatch<React.SetStateAction<string>>
     setHasBreed: React.Dispatch<React.SetStateAction<boolean>>
+    order: SelectOrder
+    onOrderChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 function ImagesFilter({
@@ -33,7 +41,9 @@ function ImagesFilter({
                           hasBreed,
                           onHasBreedChange,
                           setBreed,
-                          setHasBreed
+                          setHasBreed,
+                          order,
+                          onOrderChange
                       }: ImagesFilterProps) {
     const mappedBreeds = useMemo(() => breeds.map(breed => ({id: breed.id, name: breed.name})), [breeds])
 
@@ -57,12 +67,13 @@ function ImagesFilter({
                           withPlaceholder={false}/>
             <ImagesSelect label={'Category'} options={categories} value={category}
                           onChange={onCategoryChange}/>
+            <ImagesSelect label={'Order'} options={orderOptions} value={order} onChange={onOrderChange}
+                          withPlaceholder={false}/>
 
+            <ImagesSelect label={'Breed'} options={mappedBreeds} value={breed} onChange={handleBreedChange}/>
             <Box>
                 <Checkbox isChecked={hasBreed} mt={6} onChange={handleHasBreedChange}>With breed</Checkbox>
             </Box>
-
-            <ImagesSelect label={'Breed'} options={mappedBreeds} value={breed} onChange={handleBreedChange}/>
         </Grid>
     );
 }

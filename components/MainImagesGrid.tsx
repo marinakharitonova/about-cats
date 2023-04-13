@@ -1,5 +1,5 @@
 import React, {memo, useState} from 'react';
-import {IMAGES_LIMIT} from "@/pages/images";
+import {IMAGES_LIMIT, SelectOrder} from "@/pages/images";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import ImagesGrid from "@/components/ImagesGrid";
 import {canLoadMore} from "@/lib/canLoadMore";
@@ -11,13 +11,14 @@ type ImagesPageProps = {
     hasBreed: boolean
     category: string
     breed: string
+    order: SelectOrder
     successCb: (canLoadMore: boolean) => void
 }
 
 /**
  * MainImagesGrid component renders an images grid for Images page.
  */
-function MainImagesGrid({page, type, hasBreed, successCb, category, breed}: ImagesPageProps) {
+function MainImagesGrid({page, type, hasBreed, successCb, category, breed, order}: ImagesPageProps) {
     const [isFallbackData, setIsFallbackData] = useState(true)
 
     const params: IImagesRequestParams = {
@@ -27,7 +28,7 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed}: Imag
         has_breeds: hasBreed ? 1 : 0,
         category_ids: category,
         breed_ids: breed,
-        order: 'ASC'
+        order: order
     }
 
 
