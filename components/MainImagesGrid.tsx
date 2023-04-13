@@ -1,11 +1,11 @@
 import React, {memo, useState} from 'react';
-import {IMAGES_LIMIT, SelectOrder} from "@/pages/images";
+import {SelectOrder} from "@/pages/images";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import ImagesGrid from "@/components/ImagesGrid";
-import {canLoadMore} from "@/lib/canLoadMore";
 import {useImages} from "@/lib/hooks/useImages";
 import FavoringImage from "@/components/FavoringImage";
 import ImagesGridItem from "@/components/ImagesGridItem";
+import {IMAGES_LIMIT} from "@/pages/_app";
 
 type ImagesPageProps = {
     page: number
@@ -14,7 +14,7 @@ type ImagesPageProps = {
     category: string
     breed: string
     order: SelectOrder
-    successCb: (canLoadMore: boolean) => void
+    successCb: (imagesCount: number) => void
 }
 
 type MainGridItemProps = {
@@ -43,8 +43,8 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed, order
         isValidating
     } = useImages(params, {
         onSuccess: data => {
-            successCb(canLoadMore(IMAGES_LIMIT, page, data.imagesCount))
             setIsFallbackData(false)
+            successCb(data.imagesCount)
         }
     })
 
