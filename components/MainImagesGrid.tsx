@@ -5,6 +5,7 @@ import ImagesGrid from "@/components/ImagesGrid";
 import {canLoadMore} from "@/lib/canLoadMore";
 import {useImages} from "@/lib/hooks/useImages";
 import FavoringImage from "@/components/FavoringImage";
+import ImagesGridItem from "@/components/ImagesGridItem";
 
 type ImagesPageProps = {
     page: number
@@ -14,6 +15,11 @@ type ImagesPageProps = {
     breed: string
     order: SelectOrder
     successCb: (canLoadMore: boolean) => void
+}
+
+type MainGridItemProps = {
+    imageId: string
+    src: string
 }
 
 /**
@@ -42,16 +48,24 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed, order
         }
     })
 
+    const imagesItems = images && images.map(image =>
+        <MainGridItem key={image.id} imageId={image.id} src={image.url}/>)
+
     return (
-        <ImagesGrid images={images} alertText={'Nothing found. Change your search options.'}
-                    style={{opacity: isFallbackData ? '1' : isValidating ? '0.7' : '1'}}>
-            {
-                (children, imageId, removingId, src) =>
-                    <FavoringImage key={imageId} imageId={imageId} size={50} removingId={removingId} src={src!}>
-                        {children}
-                    </FavoringImage>
-            }
-        </ImagesGrid>
+        <ImagesGrid items={imagesItems}
+                    alertText={'Nothing found. Change your search options.'}
+                    style={{opacity: isFallbackData ? '1' : isValidating ? '0.7' : '1'}}/>
+    )
+}
+
+/**
+ * MainGridItem component renders a piece of MainImagesGrid.
+ */
+const MainGridItem = ({imageId, src}: MainGridItemProps) => {
+    return (
+        <FavoringImage imageId={imageId} size={50} src={src}>
+            <ImagesGridItem src={src}/>
+        </FavoringImage>
     )
 }
 
