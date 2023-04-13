@@ -3,8 +3,6 @@ import {UserIdContext} from "@/lib/context/UserIdContext";
 import {useUploads} from "@/lib/hooks/useUploads";
 import ImagesGrid from "@/components/ImagesGrid";
 import {UPLOAD_IMAGES_LIMIT} from "@/pages/upload";
-import {canLoadMore} from "@/lib/canLoadMore";
-import {FAV_IMAGES_LIMIT} from "@/pages/favorites";
 import DeletingImage from "@/components/DeletingImage";
 
 type UploadImagesGridProps = {
@@ -15,10 +13,9 @@ type UploadImagesGridProps = {
 /**
  * UploadImagesGrid component renders an images grid for Upload page.
  */
-function UploadImagesGrid({page, successCb}: UploadImagesGridProps) {
+function UploadImagesGrid() {
     const userId = useContext(UserIdContext)
-    const {images, isLoading} = useUploads({limit: UPLOAD_IMAGES_LIMIT, sub_id: userId, order: "DESC", page},
-        {onSuccess: data => successCb(canLoadMore(FAV_IMAGES_LIMIT, page, data.imagesCount))})
+    const {images, isLoading} = useUploads({limit: UPLOAD_IMAGES_LIMIT, sub_id: userId, order: "DESC", page: 0})
 
     return (
         <ImagesGrid images={images} alertText={`No images uploaded yet`} isLoading={isLoading}>

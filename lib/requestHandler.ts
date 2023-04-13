@@ -8,7 +8,7 @@ export default async function requestHandler(req: NextApiRequest, res: NextApiRe
     try {
         const result = await promise
         if (collectImagesData) {
-            const imagesCount = result.headers['pagination-count'] ? result.headers['pagination-count'] : null
+            const imagesCount = result.headers['pagination-count'] ? Number(result.headers['pagination-count']) : null
             res.status(200).json({images: result.data, imagesCount})
         } else {
             res.status(200).json(result.data)

@@ -26,7 +26,7 @@ function Layout({children}: LayoutProps) {
             </header>
             <main>
                 <Box>
-                    <Container maxW='5xl' paddingY={8}>
+                    <Container maxW='5xl' paddingTop={8} paddingBottom={'72px'}>
                         {children}
                     </Container>
                 </Box>

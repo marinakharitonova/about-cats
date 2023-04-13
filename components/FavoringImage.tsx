@@ -100,8 +100,8 @@ function FavoringImage({children, imageId, src, size, removingId}: FavoringImage
     }
 
     const icon = isFavorite
-                 ? <Icon as={AiFillHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
-                 : <Icon as={AiOutlineHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
+        ? <Icon as={AiFillHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
+        : <Icon as={AiOutlineHeart} w={`${size}px`} h={`${size}px`} color='red.500'/>
 
     const isDisabled = isMutatingAddFav || isMutatingRemoveFav || isFavoritesLoading
 

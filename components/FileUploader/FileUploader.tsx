@@ -91,7 +91,6 @@ function FileUploader() {
                         url: response.url,
                         width: response.width
                     }
-                    console.log(currentData.imagesCount)
                     return {
                         ...currentData,
                         imagesCount: currentData.imagesCount ? currentData.imagesCount + 1 : 1,

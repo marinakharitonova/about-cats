@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from "next/head";
 import FavImagesGrid from "@/components/FavImagesGrid";
-import ImagesPaginator from "@/components/ImagesPaginator";
+import {VStack} from "@chakra-ui/react";
 
 export const FAV_IMAGES_LIMIT = 20
 
@@ -12,8 +12,9 @@ function Favorites() {
                 <title>Favorites images</title>
             </Head>
 
-            <ImagesPaginator main={(page: number, successCb: (canLoadMore: boolean) => void) =>
-                <FavImagesGrid key={page} page={page} successCb={successCb}/>}/>
+            <VStack spacing={6} minH={'752px'}>
+                <FavImagesGrid/>
+            </VStack>
         </>
     );
 }

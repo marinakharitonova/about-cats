@@ -26,16 +26,7 @@ function Upload() {
                 Images you uploaded
             </Text>
 
-            <ImagesPaginator
-                main={
-                    (page: number, successCb: (canLoadMore: boolean) => void) =>
-                        <UploadImagesGrid
-                            key={page}
-                            page={page}
-                            successCb={successCb}
-                        />
-                }
-            />
+            <UploadImagesGrid/>
         </>
     );
 }
