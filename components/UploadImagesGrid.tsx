@@ -3,7 +3,6 @@ import {UserIdContext} from "@/lib/context/UserIdContext";
 import {useUploads} from "@/lib/hooks/useUploads";
 import ImagesGrid from "@/components/ImagesGrid";
 import ImagesGridItem from "@/components/ImagesGridItem";
-import {IMAGES_LIMIT} from "@/pages/_app";
 import UploadsRemover from "@/components/UploadsRemover";
 
 type UploadGridItemProps = {
@@ -16,7 +15,7 @@ type UploadGridItemProps = {
  */
 function UploadImagesGrid() {
     const userId = useContext(UserIdContext)
-    const {images, isLoading} = useUploads({limit: IMAGES_LIMIT, sub_id: userId, order: "DESC", page: 0})
+    const {images, isLoading} = useUploads({limit: 100, sub_id: userId, order: "DESC", page: 0})
 
     const uploadItems = images && images.map(image =>
         <UploadGridItem key={image.id} src={image.url} imageId={image.id}/>)
