@@ -4,18 +4,11 @@ import {useUploads} from "@/lib/hooks/useUploads";
 import ImagesGrid from "@/components/ImagesGrid";
 import ImagesGridItem from "@/components/ImagesGridItem";
 import UploadsRemover from "@/components/UploadsRemover";
-import {FAV_UPLOADS_LIMIT} from "@/pages/_app";
+import {IMAGES_LIMIT} from "@/pages/_app";
 import styles from './Pagination/Pagination.module.css'
-
 import ReactPaginate from 'react-paginate';
 import {GrFormNextLink, GrFormPreviousLink} from "react-icons/gr";
-import {Box, Grid, VStack} from "@chakra-ui/react";
-import {number} from "prop-types";
-
-type UploadGridItemProps = {
-    src: string
-    imageId: string
-}
+import {Box, VStack} from "@chakra-ui/react";
 
 /**
  * UploadImagesGrid component renders an images grid for Upload page.
@@ -25,14 +18,12 @@ function UploadImagesGrid() {
 
     const [page, setPage] = useState(0)
     const [numberOfPages, setNumberOfPages] = useState(0)
-    const {images, isLoading, imagesCount} = useUploads({limit: FAV_UPLOADS_LIMIT, sub_id: userId, order: "DESC", page})
+    const {images, isLoading, imagesCount} = useUploads({limit: IMAGES_LIMIT, sub_id: userId, order: "DESC", page})
 
     useEffect(() => {
         if (!imagesCount) return
-        const newNumberOfPages = Math.ceil(imagesCount / FAV_UPLOADS_LIMIT)
-        if (newNumberOfPages === numberOfPages) return;
-        setNumberOfPages(newNumberOfPages)
-    }, [imagesCount, numberOfPages])
+        setNumberOfPages(Math.ceil(imagesCount / IMAGES_LIMIT))
+    }, [imagesCount])
 
     const handlePageClick = (event: { selected: number }) => {
         setPage(event.selected)
@@ -43,12 +34,15 @@ function UploadImagesGrid() {
         const isLastImageOnPage = images && images.length === 1
 
         if (isLastImageOnPage && isLastPage) {
-            if (page - 1 >= 0) setPage(page - 1)
+            if (page - 1 >= 0) {
+                setPage(page - 1)
+                setNumberOfPages(numberOfPages - 1)
+            }
         }
     }
 
     const uploadItems = images && images.map(image =>
-        <UploadsRemover key={image.id} imageId={image.id} onDelLastImage={onDelLastImage}>
+        <UploadsRemover key={image.id} imageId={image.id} onDelLastImage={onDelLastImage} page={page}>
             <ImagesGridItem src={image.url}/>
         </UploadsRemover>)
 

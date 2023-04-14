@@ -4,6 +4,7 @@ import ImagesGridItem from "@/components/ImagesGridItem";
 import {IImage} from "@/types/IImage";
 import {IFavorite} from "@/types/IFavorite";
 import {IUpload} from "@/types/IUpload";
+import {IMAGES_LIMIT} from "@/pages/_app";
 
 type ImagesGridProps = {
     items: JSX.Element[] | undefined
@@ -13,7 +14,7 @@ type ImagesGridProps = {
 }
 
 const skeletonElems = [] as JSX.Element[]
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < IMAGES_LIMIT; i++) {
     skeletonElems.push(<Skeleton key={i} height='170px'/>)
 }
 
