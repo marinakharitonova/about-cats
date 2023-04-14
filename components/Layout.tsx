@@ -2,6 +2,7 @@ import React from 'react';
 import {Box, Container, Flex} from "@chakra-ui/react";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer/Footer";
 
 type LayoutProps = {
     children: React.ReactNode
@@ -25,18 +26,12 @@ function Layout({children}: LayoutProps) {
             </header>
             <main>
                 <Box>
-                    <Container maxW='5xl' paddingY={6}>
+                    <Container maxW='5xl' paddingTop={8} paddingBottom={'72px'}>
                         {children}
                     </Container>
                 </Box>
             </main>
-            <footer style={{marginTop: 'auto'}}>
-                <Box bg='gray.50' paddingY={4}>
-                    <Container maxW='5xl'>
-                        footer
-                    </Container>
-                </Box>
-            </footer>
+            <Footer/>
         </Flex>
     );
 }

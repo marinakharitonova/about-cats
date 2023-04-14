@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {instance, requestHelper} from "@/pages/api/axiosInstance";
+import {instance} from "@/lib/axiosInstance";
+import requestHandler from "@/lib/requestHandler";
 
 interface IVoteResponse {
     country_code: string
@@ -12,7 +13,6 @@ interface IVoteResponse {
 /**
  * Voting on Images (Up or Down)
  */
-export default function handler(req: NextApiRequest, res: NextApiResponse<IVoteResponse | string>) {
-    const promise = instance.post('votes', req.body)
-    requestHelper(req, res, promise)
+export default async function handler(req: NextApiRequest, res: NextApiResponse<IVoteResponse | string>) {
+    await requestHandler(req, res, instance.post('votes', req.body))
 }
