@@ -13,7 +13,7 @@ import {mutate} from "swr";
 import {IUploads} from "@/types/IUploads";
 import {IUpload} from "@/types/IUpload";
 import {IUploadResponse} from "@/types/IUploadResponse";
-import {UPLOAD_IMAGES_LIMIT} from "@/pages/upload";
+import {FAV_UPLOADS_LIMIT} from "@/pages/_app";
 
 /**
  * FileUploader renders an area for uploading cats images using drag and drop.
@@ -94,7 +94,7 @@ function ImageUploader() {
                     return {
                         ...currentData,
                         imagesCount: currentData.imagesCount ? currentData.imagesCount + 1 : 1,
-                        images: currentData.imagesCount && currentData.imagesCount >= UPLOAD_IMAGES_LIMIT
+                        images: currentData.imagesCount && currentData.imagesCount >= FAV_UPLOADS_LIMIT
                             ? [newImage, ...currentData.images.slice(0, -1)]
                             : [newImage, ...currentData.images]
                     }

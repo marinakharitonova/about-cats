@@ -4,6 +4,7 @@ import {useUploads} from "@/lib/hooks/useUploads";
 import ImagesGrid from "@/components/ImagesGrid";
 import ImagesGridItem from "@/components/ImagesGridItem";
 import UploadsRemover from "@/components/UploadsRemover";
+import {FAV_UPLOADS_LIMIT} from "@/pages/_app";
 
 type UploadGridItemProps = {
     src: string
@@ -15,7 +16,7 @@ type UploadGridItemProps = {
  */
 function UploadImagesGrid() {
     const userId = useContext(UserIdContext)
-    const {images, isLoading} = useUploads({limit: 100, sub_id: userId, order: "DESC", page: 0})
+    const {images, isLoading} = useUploads({limit: FAV_UPLOADS_LIMIT, sub_id: userId, order: "DESC", page: 0})
 
     const uploadItems = images && images.map(image =>
         <UploadGridItem key={image.id} src={image.url} imageId={image.id}/>)
