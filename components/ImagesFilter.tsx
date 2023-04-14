@@ -28,7 +28,11 @@ type ImagesFilterProps = {
     order: SelectOrder
     onOrderChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
-
+/**
+ * ImagesFilter renders a filter for the Images page:
+ * image type select, breed select, image order select, image category select,
+ * checkbox indicating whether cats have a breed.
+ */
 function ImagesFilter({
                           breeds,
                           categories,

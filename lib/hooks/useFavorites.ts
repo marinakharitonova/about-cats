@@ -1,15 +1,15 @@
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import useSWR, {SWRConfiguration} from "swr";
 import {filterParams} from "@/lib/filterParams";
-import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IFavorites} from "@/types/IFavorites";
+import {imagesFetcher} from "@/lib/fetchers/imagesFetcher";
 
-export const useFavorites = (params?: IImagesRequestParams, config?: SWRConfiguration, isFavoritesPage ?: boolean) => {
+export const useFavorites = (params?: IImagesRequestParams, config?: SWRConfiguration, shouldFetch ?: boolean) => {
     const {
         data,
         isLoading,
         isValidating,
-    } = useSWR<IFavorites>(isFavoritesPage ? null : ['/api/favourites', filterParams(params ?? {})], imagesFetcher, config)
+    } = useSWR<IFavorites>(shouldFetch ? ['/api/favourites', filterParams(params ?? {})]: null, imagesFetcher, config)
 
     return {
         favorites: data?.images,

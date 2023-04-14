@@ -7,6 +7,9 @@ type ImagesGridItemProps = {
     src: string
 }
 
+/**
+ * ImagesGridItem renders am image item for ImagesGrid.
+ */
 function ImagesGridItem({src}: ImagesGridItemProps) {
 
     return (

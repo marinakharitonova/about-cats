@@ -6,7 +6,7 @@ import {UserIdContext} from "@/lib/context/UserIdContext";
 import {RcFile} from "rc-upload/es/interface";
 import {Spinner, Text, useToast, VStack} from "@chakra-ui/react";
 import {BeforeUploadFileType, UploadRequestOption} from "rc-upload/lib/interface";
-import styles from './FileUploader.module.css'
+import styles from './ImageUploader.module.css'
 import {AiOutlineCloudUpload} from "react-icons/ai";
 import {Icon} from "@chakra-ui/icons";
 import {mutate} from "swr";
@@ -16,9 +16,9 @@ import {IUploadResponse} from "@/types/IUploadResponse";
 import {UPLOAD_IMAGES_LIMIT} from "@/pages/upload";
 
 /**
- * FileUploader renders an area for loading images using drag and drop.
+ * FileUploader renders an area for uploading cats images using drag and drop.
  */
-function FileUploader() {
+function ImageUploader() {
     const {
         trigger,
         isMutating
@@ -135,4 +135,4 @@ function FileUploader() {
     );
 }
 
-export default FileUploader;
+export default ImageUploader;

@@ -3,6 +3,9 @@ import {Box, Container, Link} from "@chakra-ui/react";
 import {AiFillGithub} from "react-icons/ai";
 import { Text } from '@chakra-ui/react';
 
+/**
+ * Footer component renders layout footer.
+ */
 function Footer() {
     return (
         <footer style={{marginTop: 'auto'}}>

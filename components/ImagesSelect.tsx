@@ -12,6 +12,9 @@ type ImagesSelectProps = {
     withPlaceholder?: boolean
 }
 
+/**
+ * ImagesSelect wraps the native select by adding a label, a value, an onChange method, a placeholder, an options to it.
+ */
 function ImagesSelect({label, value, onChange, options, withPlaceholder = true}: ImagesSelectProps) {
     const optionsElems = useMemo(() =>
         options.map(option => <option key={option.id} value={option.id}>{option.name}</option>), [options])

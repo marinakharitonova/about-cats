@@ -3,8 +3,9 @@ import Head from "next/head";
 import FavImagesGrid from "@/components/FavImagesGrid";
 import {VStack} from "@chakra-ui/react";
 
-export const FAV_IMAGES_LIMIT = 20
-
+/**
+ * Favorites page renders list of images added to favorites.
+ */
 function Favorites() {
     return (
         <>

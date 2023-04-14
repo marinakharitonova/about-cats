@@ -12,6 +12,8 @@ import Loading from "@/components/Loading";
 
 const newUserId = makeId(8)
 
+export const IMAGES_LIMIT = 20
+
 /**
  * App component wraps nested components with ChakraProvider, Layout, UserIdContext SWRConfig with global error handler.
  */
@@ -35,7 +37,7 @@ export default function App({Component, pageProps}: AppProps) {
                             if (error.status !== 403 && error.status !== 404) {
                                 toast({
                                     title: error.message,
-                                    description: JSON.stringify(error.response.data),
+                                    description: JSON.stringify(error?.response?.data),
                                     status: 'error',
                                     duration: 5000,
                                     isClosable: true,

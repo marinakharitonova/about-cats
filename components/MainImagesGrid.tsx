@@ -1,10 +1,11 @@
 import React, {memo, useState} from 'react';
-import {IMAGES_LIMIT, SelectOrder} from "@/pages/images";
+import {SelectOrder} from "@/pages/images";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import ImagesGrid from "@/components/ImagesGrid";
-import {canLoadMore} from "@/lib/canLoadMore";
 import {useImages} from "@/lib/hooks/useImages";
-import FavoringImage from "@/components/FavoringImage";
+import ImagesGridItem from "@/components/ImagesGridItem";
+import {IMAGES_LIMIT} from "@/pages/_app";
+import FavoritesPicker from "@/components/FavoritesPicker";
 
 type ImagesPageProps = {
     page: number
@@ -13,7 +14,12 @@ type ImagesPageProps = {
     category: string
     breed: string
     order: SelectOrder
-    successCb: (canLoadMore: boolean) => void
+    successCb: (imagesCount: number) => void
+}
+
+type MainGridItemProps = {
+    imageId: string
+    src: string
 }
 
 /**
@@ -37,21 +43,29 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed, order
         isValidating
     } = useImages(params, {
         onSuccess: data => {
-            successCb(canLoadMore(IMAGES_LIMIT, page, data.imagesCount))
             setIsFallbackData(false)
+            successCb(data.imagesCount)
         }
     })
 
+    const imagesItems = images && images.map(image =>
+        <MainGridItem key={image.id} imageId={image.id} src={image.url}/>)
+
     return (
-        <ImagesGrid images={images} alertText={'Nothing found. Change your search options.'}
-                    style={{opacity: isFallbackData ? '1' : isValidating ? '0.7' : '1'}}>
-            {
-                (children, imageId, removingId, src) =>
-                    <FavoringImage key={imageId} imageId={imageId} size={50} removingId={removingId} src={src!}>
-                        {children}
-                    </FavoringImage>
-            }
-        </ImagesGrid>
+        <ImagesGrid items={imagesItems}
+                    alertText={'Nothing found. Change your search options.'}
+                    style={{opacity: isFallbackData ? '1' : isValidating ? '0.7' : '1'}}/>
+    )
+}
+
+/**
+ * MainGridItem component renders a piece of MainImagesGrid.
+ */
+const MainGridItem = ({imageId, src}: MainGridItemProps) => {
+    return (
+        <FavoritesPicker imageId={imageId} size={50} src={src}>
+            <ImagesGridItem src={src}/>
+        </FavoritesPicker>
     )
 }
 

@@ -5,7 +5,6 @@ import useSWRMutation from "swr/mutation";
 import {deleter} from "@/lib/fetchers/deleter";
 import ActionImage from "@/components/ActionImage/ActionImage";
 import {mutate} from "swr";
-import {IFavorites} from "@/types/IFavorites";
 import {UserIdContext} from "@/lib/context/UserIdContext";
 import {IUploads} from "@/types/IUploads";
 
@@ -14,7 +13,10 @@ type DeletingImageProps = {
     imageId: string
 }
 
-function DeletingImage({children, imageId}: DeletingImageProps) {
+/**
+ * UploadsRemover wraps an image in a container with functionality to remove the uploaded image.
+ */
+function UploadsRemover({children, imageId}: DeletingImageProps) {
     const userId = useContext(UserIdContext)
 
     const {
@@ -51,4 +53,4 @@ function DeletingImage({children, imageId}: DeletingImageProps) {
     );
 }
 
-export default DeletingImage;
+export default UploadsRemover;

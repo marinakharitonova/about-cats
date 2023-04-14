@@ -15,6 +15,7 @@ import ImagesPaginator from "@/components/ImagesPaginator";
 import MainImagesGrid from "@/components/MainImagesGrid";
 import {collectImagesData} from "@/lib/collectImagesData";
 import {IImages} from "@/types/IImages";
+import {IMAGES_LIMIT} from "@/pages/_app";
 
 type ImagesProps = {
     fallback: {
@@ -23,8 +24,6 @@ type ImagesProps = {
     breeds: IBreed[]
     categories: ICategory[]
 }
-
-export const IMAGES_LIMIT = 20
 
 export type SelectOrder = 'ASC' | 'DESC'
 
@@ -53,6 +52,10 @@ export async function getStaticProps() {
     }
 }
 
+/**
+ * Images page renders a list of images with the ability to filter
+ * by image type, by breed of cat in the image, by image category, by image output order.
+ */
 function Images({fallback, breeds, categories}: ImagesProps) {
     const [breed, selectBreed, setBreed] = useSelect('' as string)
     const [category, selectCategory] = useSelect('')
@@ -102,16 +105,16 @@ function Images({fallback, breeds, categories}: ImagesProps) {
                     }
                 }
                 main={
-                    (page: number, successCb: (canLoadMore: boolean) => void) =>
+                    (page: number, successCb: (imagesCount: number) => void) =>
                         <MainImagesGrid
                             key={page}
                             breed={breed}
                             category={category}
                             hasBreed={hasBreed}
-                            successCb={successCb}
                             page={page}
                             type={type}
                             order={order}
+                            successCb={successCb}
                         />
                 }
             />

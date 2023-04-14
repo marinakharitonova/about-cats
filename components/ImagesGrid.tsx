@@ -6,8 +6,7 @@ import {IFavorite} from "@/types/IFavorite";
 import {IUpload} from "@/types/IUpload";
 
 type ImagesGridProps = {
-    children: (innerChildren: React.ReactNode, imageId: string, removingId?: number, src?: string) => React.ReactNode,
-    images: IImage[] | IFavorite[] | IUpload[] | undefined
+    items: JSX.Element[] | undefined
     alertText: string
     style?: React.CSSProperties
     isLoading?: boolean
@@ -19,10 +18,11 @@ for (let i = 0; i < 10; i++) {
 }
 
 /**
- * ImagesGrid component renders a five-column image grid from given data.
- * Renders an alert text string if data is empty.
+ * ImagesGrid component renders a five-column image grid from given JSX Elements array.
+ * Renders an alert text string if array is empty.
+ * Renders a preloader if data for array is loading.
  */
-function ImagesGrid({images, alertText, style, children, isLoading}: ImagesGridProps) {
+function ImagesGrid({items, alertText, style, isLoading}: ImagesGridProps) {
     return (
         <>
             {
@@ -32,21 +32,13 @@ function ImagesGrid({images, alertText, style, children, isLoading}: ImagesGridP
                 </Grid>
             }
             {
-                images && images.length > 0 &&
+                items && items.length > 0 &&
                 <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%' style={style}>
-                    {images && images.map(image => {
-                        if ('image' in image) {
-                            const innerChildren = <ImagesGridItem src={image.image.url}/>
-                            return children(innerChildren, image.image.id, image.id, image.image.url)
-                        } else {
-                            const innerChildren = <ImagesGridItem src={image.url}/>
-                            return children(innerChildren, image.id, undefined, image.url)
-                        }
-                    })}
+                    {items}
                 </Grid>
             }
             {
-                images && images.length === 0 &&
+                items?.length === 0 &&
                 <Text fontSize='4xl' pt={36} textAlign={'center'}>{alertText}</Text>
             }
         </>
