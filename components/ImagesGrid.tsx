@@ -32,7 +32,7 @@ function ImagesGrid({items, alertText, style, isLoading}: ImagesGridProps) {
                 </Grid>
             }
             {
-                items && items.length > 0 &&
+                !isLoading && items && items.length > 0 &&
                 <Grid templateColumns='repeat(5, 1fr)' gap={6} w='100%' style={style}>
                     {items}
                 </Grid>

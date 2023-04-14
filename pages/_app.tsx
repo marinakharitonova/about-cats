@@ -13,7 +13,7 @@ import Loading from "@/components/Loading";
 const newUserId = makeId(8)
 
 export const IMAGES_LIMIT = 20
-export const FAV_UPLOADS_LIMIT = 100
+export const FAV_UPLOADS_LIMIT = 5
 
 /**
  * App component wraps nested components with ChakraProvider, Layout, UserIdContext SWRConfig with global error handler.

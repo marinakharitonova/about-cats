@@ -99,7 +99,7 @@ function ImageUploader() {
                             : [newImage, ...currentData.images]
                     }
                 },
-                revalidate: false
+                revalidate: true
             }
         )
     }

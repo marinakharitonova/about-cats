@@ -1,0 +1,44 @@
+.item {
+    margin-right: 10px;
+}
+
+.item:last-child {
+    margin-right: 0;
+}
+
+.disabledItem {
+    opacity: 0.5;
+}
+
+.disablesLink {
+    cursor: not-allowed;
+}
+
+.link {
+    display: flex;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: #EDF2F7;
+    color: #3182CE;
+    font-weight: 600;
+}
+
+.link svg path {
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+.active .link {
+    background: #3182CE;
+    color: #ffffff;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+}
