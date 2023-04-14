@@ -1,8 +1,8 @@
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import useSWR, {SWRConfiguration} from "swr";
 import {filterParams} from "@/lib/filterParams";
-import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IUploads} from "@/types/IUploads";
+import {imagesFetcher} from "@/lib/fetchers/imagesFetcher";
 
 export const useUploads = (params?: IImagesRequestParams, config?: SWRConfiguration) => {
     const {

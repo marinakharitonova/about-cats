@@ -6,6 +6,9 @@ type LoadingProps = {
     children: React.ReactNode,
 }
 
+/**
+ * Loading renders a loader for the Vote page until it is loaded from the server.
+ */
 function Loading({children}: LoadingProps) {
     const router = useRouter();
 

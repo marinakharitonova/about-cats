@@ -2,15 +2,9 @@ import React, {useContext} from 'react';
 import {UserIdContext} from "@/lib/context/UserIdContext";
 import {useUploads} from "@/lib/hooks/useUploads";
 import ImagesGrid from "@/components/ImagesGrid";
-import {UPLOAD_IMAGES_LIMIT} from "@/pages/upload";
-import DeletingImage from "@/components/DeletingImage";
 import ImagesGridItem from "@/components/ImagesGridItem";
 import {IMAGES_LIMIT} from "@/pages/_app";
-
-type UploadImagesGridProps = {
-    page: number
-    successCb: (canLoadMore: boolean) => void
-}
+import UploadsRemover from "@/components/UploadsRemover";
 
 type UploadGridItemProps = {
     src: string
@@ -37,9 +31,9 @@ function UploadImagesGrid() {
  */
 const UploadGridItem = ({src, imageId}: UploadGridItemProps) => {
     return (
-        <DeletingImage imageId={imageId}>
+        <UploadsRemover imageId={imageId}>
             <ImagesGridItem src={src}/>
-        </DeletingImage>
+        </UploadsRemover>
     )
 }
 

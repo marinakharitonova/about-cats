@@ -3,9 +3,9 @@ import {SelectOrder} from "@/pages/images";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import ImagesGrid from "@/components/ImagesGrid";
 import {useImages} from "@/lib/hooks/useImages";
-import FavoringImage from "@/components/FavoringImage";
 import ImagesGridItem from "@/components/ImagesGridItem";
 import {IMAGES_LIMIT} from "@/pages/_app";
+import FavoritesPicker from "@/components/FavoritesPicker";
 
 type ImagesPageProps = {
     page: number
@@ -63,9 +63,9 @@ function MainImagesGrid({page, type, hasBreed, successCb, category, breed, order
  */
 const MainGridItem = ({imageId, src}: MainGridItemProps) => {
     return (
-        <FavoringImage imageId={imageId} size={50} src={src}>
+        <FavoritesPicker imageId={imageId} size={50} src={src}>
             <ImagesGridItem src={src}/>
-        </FavoringImage>
+        </FavoritesPicker>
     )
 }
 

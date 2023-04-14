@@ -1,9 +1,9 @@
 import useSWRImmutable from "swr/immutable";
 import {IImages} from "@/types/IImages";
-import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import {SWRConfiguration} from "swr";
 import {filterParams} from "@/lib/filterParams";
+import {imagesFetcher} from "@/lib/fetchers/imagesFetcher";
 
 export const useRandomImage = (params?: IImagesRequestParams, config?: SWRConfiguration,) => {
     const {

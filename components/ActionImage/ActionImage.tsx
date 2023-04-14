@@ -9,6 +9,10 @@ type ActionImageProps = {
     isDisabled: boolean
 }
 
+/**
+ * ActionImage wraps a child image element in a container with a button
+ * for interacting with the image.
+ */
 function ActionImage({children, icon, onClick, isDisabled}: ActionImageProps) {
     return (
         <Box className={styles.wrapper}>

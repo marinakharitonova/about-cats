@@ -2,11 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import {instance} from "@/lib/axiosInstance";
 import requestHandler from "@/lib/requestHandler";
 import {IFavorites} from "@/types/IFavorites";
-
-interface IAddFavResponse {
-    message: string
-    id: number
-}
+import {IAddFavResponse} from "@/types/IAddFavResponse";
 
 /**
  * POST: Add the image to favorites

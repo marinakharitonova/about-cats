@@ -1,8 +1,8 @@
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";
 import useSWR, {SWRConfiguration} from "swr";
 import {filterParams} from "@/lib/filterParams";
-import {imagesFetcher} from "@/lib/fetchers/fetchers";
 import {IFavorites} from "@/types/IFavorites";
+import {imagesFetcher} from "@/lib/fetchers/imagesFetcher";
 
 export const useFavorites = (params?: IImagesRequestParams, config?: SWRConfiguration, isFavoritesPage ?: boolean) => {
     const {
