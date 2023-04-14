@@ -1,12 +1,12 @@
 import React from 'react';
 import Head from "next/head";
-import ImageUploader from "@/components/ImageUploader/FileUploader";
 import {Box, Text} from "@chakra-ui/react";
-import ImagesPaginator from "@/components/ImagesPaginator";
 import UploadImagesGrid from "@/components/UploadImagesGrid";
+import ImageUploader from "@/components/ImageUploader/ImageUploader";
 
-export const UPLOAD_IMAGES_LIMIT = 20
-
+/**
+ * Upload page renders an image upload area and a list of uploaded images.
+ */
 function Upload() {
     return (
         <>

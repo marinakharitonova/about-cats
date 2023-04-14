@@ -52,6 +52,10 @@ export async function getStaticProps() {
     }
 }
 
+/**
+ * Images page renders a list of images with the ability to filter
+ * by image type, by breed of cat in the image, by image category, by image output order.
+ */
 function Images({fallback, breeds, categories}: ImagesProps) {
     const [breed, selectBreed, setBreed] = useSelect('' as string)
     const [category, selectCategory] = useSelect('')
