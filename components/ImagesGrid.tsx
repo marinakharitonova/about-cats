@@ -39,7 +39,7 @@ function ImagesGrid({items, alertText, style, isLoading}: ImagesGridProps) {
             }
             {
                 items?.length === 0 &&
-                <Text fontSize='4xl' pt={36} textAlign={'center'}>{alertText}</Text>
+                <Text fontSize='4xl' pt={36} textAlign={'center'} style={style}>{alertText}</Text>
             }
         </>
     );
