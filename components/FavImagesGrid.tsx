@@ -19,7 +19,7 @@ function FavImagesGrid() {
     const userId = useContext(UserIdContext)
     const params: IImagesRequestParams = {order: 'DESC', page: 0, limit: 100, sub_id: userId}
 
-    const {favorites, isFavoritesLoading} = useFavorites(params, undefined)
+    const {favorites, isFavoritesLoading} = useFavorites(params, undefined, true)
 
     const favItems = favorites && favorites.map(favorite =>
         <FavGridItem key={favorite.image_id} imageId={favorite.image_id} removingId={favorite.id}

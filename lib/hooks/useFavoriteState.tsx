@@ -5,7 +5,9 @@ import {useFavorites} from "@/lib/hooks/useFavorites";
 export const useFavoriteState = (imageId: string, defaultRemovingId?: number) => {
     const userId = useContext(UserIdContext)
 
-    const {favorites, isFavoritesLoading} = useFavorites({order: 'DESC', sub_id: userId}, undefined, !!defaultRemovingId)
+    const {favorites, isFavoritesLoading} = useFavorites({order: 'DESC', sub_id: userId}, {
+        revalidateIfStale: false
+    }, !defaultRemovingId)
 
     const [isFavorite, setIsFavorite] = useState(!!defaultRemovingId)
     const [removingId, setRemovingId] = useState(defaultRemovingId ?? -1)
