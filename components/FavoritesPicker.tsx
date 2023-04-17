@@ -11,7 +11,7 @@ import {deleter} from "@/lib/fetchers/deleter";
 import {IFavoriteMutationArg} from "@/types/IFavoriteMutationArg";
 import {favoritesAdder} from "@/lib/fetchers/favoritesAdder";
 import {IAddFavResponse} from "@/types/IAddFavResponse";
-import {FAV_UPLOADS_LIMIT} from "@/pages/_app";
+import {FAV_LIMIT} from "@/pages/_app";
 
 type FavoringImageProps = {
     children: React.ReactNode,
@@ -93,7 +93,7 @@ function FavoritesPicker({children, imageId, src, size, removingId}: FavoringIma
                                 return {
                                     ...currentData,
                                     imagesCount: currentData.imagesCount ? currentData.imagesCount + 1 : 1,
-                                    images: currentData.imagesCount && currentData.imagesCount >= FAV_UPLOADS_LIMIT
+                                    images: currentData.imagesCount && currentData.imagesCount >= FAV_LIMIT
                                         ? [newImage, ...currentData.images.slice(0, -1)]
                                         : [newImage, ...currentData.images]
                                 }

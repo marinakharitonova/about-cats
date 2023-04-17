@@ -5,7 +5,7 @@ import {UserIdContext} from "@/lib/context/UserIdContext";
 import {useFavorites} from "@/lib/hooks/useFavorites";
 import ImagesGridItem from "@/components/ImagesGridItem";
 import FavoritesPicker from "@/components/FavoritesPicker";
-import {FAV_UPLOADS_LIMIT} from "@/pages/_app";
+import {FAV_LIMIT} from "@/pages/_app";
 
 type FavGridItemProps = {
     imageId: string
@@ -18,7 +18,7 @@ type FavGridItemProps = {
  */
 function FavImagesGrid() {
     const userId = useContext(UserIdContext)
-    const params: IImagesRequestParams = {order: 'DESC', page: 0, limit: FAV_UPLOADS_LIMIT, sub_id: userId}
+    const params: IImagesRequestParams = {order: 'DESC', page: 0, limit: FAV_LIMIT, sub_id: userId}
 
     const {favorites, isFavoritesLoading} = useFavorites(params, undefined, true)
 
