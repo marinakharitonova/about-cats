@@ -10,14 +10,14 @@ API [The Cat API](https://thecatapi.com/) is used in this project.
 The application uses such NextJS features like static generation and server-side rendering for better performance.
 [SWR](https://swr.vercel.app/) is used for client-side data fetching.
 
-## Let's consider some features of the application.
+# Let's consider some features of the application.
 
 Since the main element of the application interface is an image, almost every image is equipped with a wrapper component
 that allows you to conveniently interact with the image. Thus, you can add/remove images to your favorites by simply
 clicking on the image you like. Such functionality is available on the Vote, Favorites, Image pages. At the same time,
 the wrapper component will allow you to conveniently remove your uploaded images from the Upload page.
 
-![Image_iteraction](./public/image_iteraction.png)
+![Image_interaction](./public/image_interaction.png)
 
 The **Vote** page allows you to rate a random cat photo by voting for or against the image.
 
