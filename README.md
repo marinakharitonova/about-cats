@@ -1,38 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Cats App
 
-## Getting Started
+Cats app is a desktop web application containing information about cats. You can view cat
+photos, add photos to favorites, vote for your favorite photo, and upload your own cat photos.
 
-First, run the development server:
+This is a [Next.js](https://nextjs.org/) project written in [Typescript](https://www.typescriptlang.org/).
+The user interface was created using the [Chakra UI](https://chakra-ui.com/) library. A public service
+API [The Cat API](https://thecatapi.com/) is used in this project.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+The application uses such NextJS features like static generation and server-side rendering for better performance.
+[SWR](https://swr.vercel.app/) is used for client-side data fetching.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Let's consider some features of the application.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Since the main element of the application interface is an image, almost every image is equipped with a wrapper component
+that allows you to conveniently interact with the image. Thus, you can add/remove images to your favorites by simply
+clicking on the image you like. Such functionality is available on the Vote, Favorites, Image pages. At the same time,
+the wrapper component will allow you to conveniently remove your uploaded images from the Upload page.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+![Image_iteraction](./public/image_iteraction.png)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+The **Vote** page allows you to rate a random cat photo by voting for or against the image.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![Vote page](./public/vote_page.png)
 
-## Learn More
+The **Breeds** page allows you to select a breed from the list and get available
+information about it, such as a cat weight, country of origin of the breed, cat temperament.
+Breed photos are displayed in a carousel created with [react-slick](https://www.npmjs.com/package/react-slick)
 
-To learn more about Next.js, take a look at the following resources:
+![Breds page](./public/breeds_page.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The **Images** page presents a grid of cat images and a filter to change the display results. You can choose a photo of
+a given breed, or funny photos from a given category, such as cats in boxes or cats in clothes. The page is built as an
+infinite loading page. 20 images are displayed to start with, and you can upload more images using the "Load more"
+button.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Images page](./public/images_page.png)
 
-## Deploy on Vercel
+The **Favorites** page displays a list of images added to favorites. When adding/removing images from favorites, the
+cached data about favorite images is updated and current favorite images are not revalidated. When adding/removing
+images from favorites, the cached data about favorite images is manually updated, and current favorite images are not
+revalidated. This improves the user experience of interacting with the page: when an image is removed from favorites,
+the preloader does not flash, since there is no request for data.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Favorites page](./public/favorites_page.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+You can upload your own cat photos on the **Upload** page using the dedicated drag and drop field.
+[rc-upload](https://www.npmjs.com/package/rc-upload) helped create the image upload interface and functionality.
+
+![Upload page](./public/upload_page_1.png)
+
+For convenient viewing of images, pagination is used, the pagination component is created based
+on [react-paginate](https://www.npmjs.com/package/react-paginate).
+The logic for interacting with the cache when loading / deleting an image is similar to the logic of the Favorites page.
+Only the data of those pages that are not currently displayed are revalidated. For the currently displayed page, the cache is refreshed
+manually to avoid content flickering.
+
+![Upload page](./public/upload_page_2.png)
+
+
+
+
+
+
+
