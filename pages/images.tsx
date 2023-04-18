@@ -66,7 +66,12 @@ function Images({fallback, breeds, categories}: ImagesProps) {
     return (
         <SWRConfig value={{fallback, revalidateOnFocus: false}}>
             <Head>
-                <title>Cats images</title>
+                <title>Thousands of cat images</title>
+                <meta
+                    name="description"
+                    content="Browse thousands of cute cat pictures: cats in boxes, cats in clothes, cats in sinks."
+                    key="desc"
+                />
             </Head>
 
             <ImagesPaginator

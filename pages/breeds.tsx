@@ -50,7 +50,12 @@ export default function Breeds({fallback, breeds}: BreedsProps) {
     return (
         <SWRConfig value={{fallback}}>
             <Head>
-                <title>Breeds</title>
+                <title>Popular cat breeds</title>
+                <meta
+                    name="description"
+                    content="All information about the most popular cat breeds: Abyssinian, British, Persian and many others."
+                    key="desc"
+                />
             </Head>
 
             <Container maxW='3xl'>

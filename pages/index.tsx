@@ -51,7 +51,12 @@ export default function Home({fallback, errorCode}: HomeProps) {
     return (
         <SWRConfig value={{fallback}}>
             <Head>
-                <title>Vote for the most cutest cat!</title>
+                <title>Vote for the most cutest cat image</title>
+                <meta
+                    name="description"
+                    content="Vote for or against an image of a cat."
+                    key="desc"
+                />
             </Head>
             {content}
         </SWRConfig>
