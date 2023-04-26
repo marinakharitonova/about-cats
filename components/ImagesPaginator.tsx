@@ -45,7 +45,7 @@ function ImagesPaginator({main, imagesFilter}: ImagesPaginatorProps) {
                 <Center mt="30px">
                     <Button colorScheme='blue' onClick={handleLoadMoreClick}
                             isLoading={isLoading}
-                            isDisabled={pagesCount === cnt}>
+                            isDisabled={pagesCount === cnt || pagesCount === 0}>
                         Load more
                     </Button>
                 </Center>
