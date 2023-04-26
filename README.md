@@ -1,6 +1,6 @@
-## Cats App
+## About cats
 
-Cats app is a desktop web application containing information about cats. You can view cat
+About cats is a desktop web application containing information about cats. You can view cat
 images, add images to favorites, vote for your favorite image, and upload your own cat images.
 
 This is a [Next.js](https://nextjs.org/) project written in [Typescript](https://www.typescriptlang.org/).
@@ -41,10 +41,11 @@ button.
 
 ![Images page](./public/images_page.png)
 
-The **Favorites** page displays a list of images added to favorites. When adding/removing
-images from favorites, the cached data about favorite images is manually updated, and current favorite images are not
-revalidated. This improves the user experience of interacting with the page: when an image is removed from favorites,
-the preloader does not flash, since there is no request for data.
+The **Favorites** page displays a list of images added to favorites. When you open the application for the first time, 
+a list of favorite images is requested from the server and stored in the cache. When adding/removing
+images from favorites, the cached data is updated manually, and list of favorite images is not
+revalidated. This improves the user experience of interacting with the page: when an image is removed from 
+favorites, the current content remains visible. No preloader flickering as there is no request for data.
 
 ![Favorites page](./public/favorites_page.png)
 
@@ -57,10 +58,11 @@ For convenient viewing of images, pagination is used, the pagination component i
 on [react-paginate](https://www.npmjs.com/package/react-paginate).
 The logic of interaction with the cache when loading/deleting an image is similar to the logic of interaction with
 favorite images.
-When loading an image, only the data of those pages that are not currently displayed are revalidated. For the currently
+When uploading/removing image, the logic is similar to the logic of adding/removing an image from favorites.
+Uploaded images data stored in the cache, and when loading an image, only the data of those pages that are not currently displayed are revalidated. For the currently
 displayed page, the cache is updated manually. When deleting an image, pages whose serial number is greater than or equal
 to the current one are revalidated, but the manual cache change occurs only for the current page. This
-allows to update image list of the current page without flashing the preloader and improves the user experience on the page.
+allows user to conveniently update image list of the current page.
 
 ![Upload page](./public/upload_page_2.png)
 
