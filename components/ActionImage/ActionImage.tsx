@@ -22,6 +22,7 @@ function ActionImage({children, icon, onClick, isDisabled}: ActionImageProps) {
                     className={styles.button}
                     onClick={onClick}
                     isDisabled={isDisabled}
+                    data-testid="action-image-btn"
             />
             {children}
         </Box>

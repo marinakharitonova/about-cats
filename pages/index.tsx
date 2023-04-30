@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import VotingImage from "@/components/VotingImage";
-import VotingButtons from "@/components/VotingButtons";
+import VotingButtons from "@/components/VotingButtons/VotingButtons";
 import {Wrap} from "@chakra-ui/react";
 import React from "react";
 import {IImagesRequestParams} from "@/types/IImagesRequestParams";

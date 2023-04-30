@@ -87,6 +87,7 @@ function ImageUploader() {
                 beforeUpload={beforeUpload}
                 className={isMutating ? styles.uploaderDisabled + ' ' + styles.uploader : styles.uploader}
                 disabled={isMutating}
+                data-testid='image-uploader'
         >
             <VStack h={'100%'} justifyContent={'center'}>
                 {
